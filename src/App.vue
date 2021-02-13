@@ -1,32 +1,64 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <component :is="layout"></component>
   </div>
 </template>
 
+<script>
+  import MainLayout from "./layout/MainLayout";
+
+  export default {
+    computed : {
+      layout: function () {
+        return 'main-layout';
+      },
+      isLoggedIn : function() { return this.$store.getters.isLoggedIn}
+    },
+    components: {
+      MainLayout,
+    },
+    methods: {
+      logout: function () {
+        this.$store.dispatch('logout')
+                .then(() => {
+                  this.$router.push('/login')
+                })
+      },
+      created: function () {
+        this.$http.interceptors.response.use(undefined, function (err) {
+          return new Promise(function () {
+            if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+              this.$store.dispatch("logout")
+            }
+            throw err;
+          });
+        });
+      }
+    }
+  }
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
-#nav {
-  padding: 30px;
-}
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  #nav {
+    padding: 30px;
+  }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  #nav a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  #nav a.router-link-exact-active {
+    color: #42b983;
+  }
 </style>
