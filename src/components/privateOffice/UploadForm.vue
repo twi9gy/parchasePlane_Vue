@@ -9,36 +9,40 @@
                                     show-progress animated>{{ fileCurrent }} {{ fileProgress }} %</b-progress>
                     </div>
                 </div>
-                <div class="row mt-2 justify-content-center" v-for="(file) in allFiles" :key="file.id">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <b-form-input placeholder="Подпись для файла"
-                                          v-model="file.name"></b-form-input>
+                <div class="row mt-2 justify-content-center" v-for="(file, index) in allFiles" :key="file.id">
+                    <div class="col-lg-9 col-md-6 col-sm-12">
+                        <mdb-input label="Подпись для файла" v-model="file.name"></mdb-input>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 mt-4">
+                        <div class="row">
+                            <template v-if="file.is_new">
+                                <div class="col-4">
+                                    <div class="file-field input-field">
+                                        <mdb-btn color="primary" size="md" >
+                                            <mdb-icon far icon="folder-open" />
+                                            <input type="file" @change="selectImg(file)">
+                                        </mdb-btn>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <mdb-btn color="default" size="md" ><mdb-icon  icon="upload" /></mdb-btn>
+                                </div>
+                            </template>
+                            <div class="col-4">
+                                <mdb-btn color="danger" size="md" @click="delFile(index)"><mdb-icon  icon="trash" /></mdb-btn>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 mb-3">
-                        <template v-if="file.is_new"><!-- v-if="file.is_new" -->
-                            <div class="input-group">
-                                <b-form-file
-                                        placeholder="Нет выбранного файла"
-                                        drop-placeholder="Drop file here..."
-                                        @change="fileInputChange(file)"
-                                ></b-form-file>
-                                <div class="input-group-append" id="button-addon4">
-                                    <button class="btn btn-outline-secondary" type="button">Загрузить</button>
-                                    <button class="btn btn-outline-secondary" type="button">Удалить</button>
-                                </div>
-                            </div>
-                        </template>
-
-                        <b-input-group-append>
-                            <!--<mdb-btn color="danger" @click="delFile(index)" size="md">Удалить</mdb-btn>-->
-                        </b-input-group-append>
-                    </div>
                 </div>
+
+                <hr />
+
                 <div class="row mb-2">
-                    <div class="col-md-12">
-                        <!--<mdb-btn class="pl-5 pr-5" color="primary" @click="addFile">Добавить файл</mdb-btn>-->
+                    <div class="col-md-7 d-flex justify-content-end">
+                        <mdb-btn color="default" size="lg" @click="addFile">Добавить файл</mdb-btn>
+                    </div>
+                    <div class="col-5 mt-3 d-flex justify-content-end">
+                        <Pagination />
                     </div>
                 </div>
             </div>
@@ -49,10 +53,17 @@
 <script>
     import { mapGetters } from 'vuex';
     import { mapMutations } from 'vuex'
+    import { mdbBtn, mdbInput, mdbIcon } from 'mdbvue'
+    import Pagination from "../Pagination";
 
     export default {
         name: "uploadForm",
+
         components: {
+            Pagination,
+            mdbBtn,
+            mdbInput,
+            mdbIcon
         },
         data() {
             return {
@@ -62,9 +73,22 @@
         },
         methods: {
             ...mapMutations(["createFile", "deleteFile"]),
-            fileInputChange(file) {
+            selectImg(file) {
                 file.name = event.target.files[0].name;
                 file.content = event.target.files[0];
+                /*
+                let formData = new FormData();
+                formData.append('file', this.$refs.file.files[0]);
+                this.axios({
+                    method: 'POST',
+                    url: 'http://api/upload',
+                    data: formData,
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                }).then(response => (this.resume.imgurl_resume = response.data.filename))
+                    .catch(error => (console.log(error)));
+                 */
             },
             async uploadFile(file) {
                 let form= new FormData();
@@ -83,7 +107,5 @@
 </script>
 
 <style scoped>
-    .custom-file-input:lang(en)~.custom-file-label::after {
-        content: "Browse";
-    }
+    @import "../../../node_modules/materialize/css/materialize.overmin.css";
 </style>

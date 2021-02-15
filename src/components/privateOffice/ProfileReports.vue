@@ -1,10 +1,13 @@
 <template>
-    <div></div>
+    <div class="mb-3">
+
+    </div>
 </template>
 
 <script>
     export default {
-        name: "Reports"
+        name: "Reports",
+        components: { },
     }
 </script>
 
