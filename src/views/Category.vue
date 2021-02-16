@@ -5,10 +5,22 @@
             <mdb-row class="d-flex justify-content-center">
                 <mdb-col md="12" class="p-0">
                     <mdb-card class="mt-5">
-                        <div class="header pt-3 pb-2 info-color header-category">
-                            <mdb-row class="d-flex justify-content-center">
-                                <h3 class="white-text">Категория: {{ this.category.name }}</h3>
-                            </mdb-row>
+                        <div class="header pt-3 pb-2 blue-gradient z-depth-1-half rounded header-category">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-4 d-flex justify-content-start">
+                                    <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                        <mdb-icon  icon="home" />
+                                    </mdb-btn>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="white-text">Категория: {{ this.category.name }}</h3>
+                                </div>
+                                <div class="col-4 d-flex justify-content-end">
+                                    <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                        <mdb-icon  icon="info-circle" />
+                                    </mdb-btn>
+                                </div>
+                            </div>
                         </div>
                         <mdb-card-body >
                             <div class="container-fluid">
@@ -23,9 +35,9 @@
 </template>
 
 <script>
-    import { mdbRow, mdbCol, mdbCard, mdbCardBody } from 'mdbvue';
+    import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbIcon, mdbBtn } from 'mdbvue';
     import { mapGetters } from 'vuex';
-    import UploadForm from "../components/privateOffice/UploadForm";
+    import UploadForm from "../components/privateOfficeComponents/UploadForm";
 
     export default {
         name: "Category",
@@ -35,6 +47,8 @@
             mdbCol,
             mdbCard,
             mdbCardBody,
+            mdbIcon,
+            mdbBtn
         },
         created() {
             if (typeof this.$route.params.id !== "undefined") {

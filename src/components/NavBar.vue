@@ -4,13 +4,13 @@
             <mdb-navbar-brand to="/">Планы закупок</mdb-navbar-brand>
             <mdb-navbar-toggler>
                 <mdb-navbar-nav>
-                    <mdb-nav-item active to="/">Главная</mdb-nav-item>
-                    <mdb-nav-item to="/about">О проекте</mdb-nav-item>
-                    <mdb-nav-item to="/privateOffice">Личный кабинет</mdb-nav-item>
+                    <mdb-nav-item active :to="{name: 'home'}">Главная</mdb-nav-item>
+                    <mdb-nav-item :to="{name: 'about'}">О проекте</mdb-nav-item>
+                    <mdb-nav-item :to="{name: 'privateOffice'}">Личный кабинет</mdb-nav-item>
                 </mdb-navbar-nav>
                 <mdb-navbar-nav right>
-                    <mdb-nav-item to="/login">Вход</mdb-nav-item>
-                    <mdb-nav-item to="/register">Регистрация</mdb-nav-item>
+                    <mdb-nav-item :to="{name: 'login'}">Вход</mdb-nav-item>
+                    <mdb-nav-item :to="{name: 'register'}">Регистрация</mdb-nav-item>
                     <span v-if="isLoggedIn"> | <a @click="logout">Выход</a></span>
                 </mdb-navbar-nav>
             </mdb-navbar-toggler>

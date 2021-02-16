@@ -6,16 +6,18 @@
 
 <script>
   import MainLayout from "./layout/MainLayout";
+  import ReportLayout from "./layout/ReportLayout";
 
   export default {
     computed : {
       layout: function () {
-        return 'main-layout';
+        return (this.$route.meta.layout || 'main') + '-layout';
       },
       isLoggedIn : function() { return this.$store.getters.isLoggedIn}
     },
     components: {
       MainLayout,
+      ReportLayout
     },
     methods: {
       logout: function () {

@@ -11,7 +11,8 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
-    user : {}
+    user : {},
+    page: 'Главная'
   },
   actions: {
     login({commit}, user){
@@ -81,6 +82,9 @@ export default new Vuex.Store({
   getters : {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
+    getPage(state) {
+        return state.page;
+    }
   },
   modules: {
     categories,

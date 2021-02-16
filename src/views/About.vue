@@ -19,9 +19,9 @@
                             <mdb-col lg="10" md="9" size="10">
                               <h4 class="font-weight-bold">Шаг 1</h4>
                               <p class="grey-text">Регистрация аккаунта в системе.</p>
-                              <mdb-btn color="primary" size="sm">
-                                <router-link  to="/register" class="text-white">Регистрация</router-link>
-                              </mdb-btn>
+                              <router-link  :to="{ name: 'register' }" class="text-white">
+                                <mdb-btn color="primary" size="sm">Регистрация</mdb-btn>
+                              </router-link>
                             </mdb-col>
                           </mdb-row>
                         </mdb-col>
@@ -33,9 +33,11 @@
                             <mdb-col lg="10" md="9" size="10">
                               <h4 class="font-weight-bold">Шаг 2</h4>
                               <p class="grey-text">Создать категории для файлов с информацией о продажах в блоке 'Каталог'.</p>
-                              <mdb-btn color="pink" size="sm">
-                                <router-link  to="/privateOffice" class="text-white">Личный кабинет</router-link>
-                              </mdb-btn>
+                              <router-link  :to="{ name: 'privateOffice' }" class="text-white">
+                                <mdb-btn color="pink" size="sm">
+                                  Личный кабинет
+                                </mdb-btn>
+                              </router-link>
                             </mdb-col>
                           </mdb-row>
                         </mdb-col>
@@ -47,9 +49,11 @@
                             <mdb-col lg="10" md="9" size="10">
                               <h4 class="font-weight-bold">Шаг 3</h4>
                               <p class="grey-text">Добавить файлы с информацией о продажах в блоке 'Каталог'.</p>
-                              <mdb-btn color="purple" size="sm">
-                                <router-link  to="/privateOffice" class="text-white">Личный кабинет</router-link>
-                              </mdb-btn>
+                              <router-link  :to="{ name: 'privateOffice' }" class="text-white">
+                                <mdb-btn color="purple" size="sm">
+                                  Личный кабинет
+                                </mdb-btn>
+                              </router-link>
                             </mdb-col>
                           </mdb-row>
                         </mdb-col>

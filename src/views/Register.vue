@@ -37,7 +37,7 @@
                                                             </mdb-col>
                                                             <mdb-col md="7" class="d-flex justify-content-end">
                                                                 <p class="font-small grey-text mt-3">У вас есть аккаунт?
-                                                                    <router-link to="/login"
+                                                                    <router-link :to="{name: 'login'}"
                                                                                  class="dark-grey-text ml-1 font-weight-bold"> Вход
                                                                     </router-link>
                                                                 </p>

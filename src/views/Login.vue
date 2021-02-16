@@ -31,7 +31,7 @@
                                                             </mdb-col>
                                                             <mdb-col md="7" class="d-flex justify-content-end">
                                                                 <p class="font-small grey-text mt-3">У вас нет аккаунта?
-                                                                    <router-link to="/register"
+                                                                    <router-link :to="{name: 'register'}"
                                                                                  class="dark-grey-text ml-1 font-weight-bold"> Регистрация
                                                                     </router-link>
                                                                 </p>
@@ -74,7 +74,7 @@
                 let email = this.email;
                 let password = this.password;
                 this.$store.dispatch('login', { email, password })
-                    .then(() => this.$router.push('/privateOffice'))
+                    .then(() => this.$router.push('/privateOfficeComponents'))
                     .catch(err => console.log(err))
             }
         }

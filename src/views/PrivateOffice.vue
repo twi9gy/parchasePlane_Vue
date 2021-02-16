@@ -27,10 +27,22 @@
                         <mdb-row class="d-flex justify-content-center">
                             <mdb-col md="12" class="p-0">
                                 <mdb-card class="mt-5">
-                                    <div class="header pt-3 pb-2 info-color header-profile">
-                                        <mdb-row class="d-flex justify-content-center">
-                                            <h3 class="white-text">{{ currentTitle }}</h3>
-                                        </mdb-row>
+                                    <div class="blue-gradient header z-depth-1-half rounded pt-3 pb-2 header-profile">
+                                        <div class="row">
+                                            <div class="col-4 d-flex justify-content-start">
+                                                <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                                    <mdb-icon  icon="home" />
+                                                </mdb-btn>
+                                            </div>
+                                            <div class="col-4">
+                                                <h3 class="white-text">{{ currentTitle }}</h3>
+                                            </div>
+                                            <div class="col-4 d-flex justify-content-end">
+                                                <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                                    <mdb-icon  icon="info-circle" />
+                                                </mdb-btn>
+                                            </div>
+                                        </div>
                                     </div>
                                     <mdb-card-body >
                                         <div class="container-fluid">
@@ -48,9 +60,9 @@
 </template>
 
 <script>
-    import ProfileInformation from "../components/privateOffice/ProfileInformation";
-    import ProfileCatalog from "../components/privateOffice/ProfileCatalog";
-    import ProfileReports from "../components/privateOffice/ProfileReports";
+    import ProfileInformation from "../components/privateOfficeComponents/ProfileInformation";
+    import ProfileCatalog from "../components/privateOfficeComponents/ProfileCatalog";
+    import ProfileReports from "../components/privateOfficeComponents/ProfileReports";
     import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbIcon } from 'mdbvue';
 
     export default {

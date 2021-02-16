@@ -11,7 +11,18 @@
                 </div>
                 <div class="row mt-2 justify-content-center" v-for="(file, index) in allFiles" :key="file.id">
                     <div class="col-lg-9 col-md-6 col-sm-12">
-                        <mdb-input label="Подпись для файла" v-model="file.name"></mdb-input>
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="mt-3 rounded h-50 z-depth-1-half p-2 primary-color"
+                                     :style="{ color : activeColor }"
+                                      @mouseenter="selectColor"  >
+                                    <mdb-icon class="icon-file" far icon="file" />
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <mdb-input label="Подпись для файла" v-model="file.name"></mdb-input>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12 mt-4">
                         <div class="row">
@@ -58,7 +69,6 @@
 
     export default {
         name: "uploadForm",
-
         components: {
             Pagination,
             mdbBtn,
@@ -68,7 +78,17 @@
         data() {
             return {
                 fileProgress: 0,
-                fileCurrent: ''
+                fileCurrent: '',
+                colorArray: [
+                    '#4285F4',
+                    '#00C851',
+                    '#ffbb33',
+                    '#ff4444',
+                    '#33b5e5',
+                    '#aa66cc',
+                    '#2BBBAD',
+                ],
+                activeColor: 'red'
             }
         },
         methods: {
@@ -101,11 +121,15 @@
             delFile(index) {
                 this.deleteFile(index);
             },
+            selectColor() {
+                let rand = Math.floor(Math.random() * this.colorArray.length);
+                this.activeColor = this.colorArray[rand];
+            }
         },
         computed: mapGetters(["allFiles"])
     }
 </script>
 
 <style scoped>
-    @import "../../../node_modules/materialize/css/materialize.overmin.css";
+
 </style>
