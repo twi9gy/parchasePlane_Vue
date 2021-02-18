@@ -39,7 +39,7 @@
 
 <script>
     import { mapGetters } from 'vuex';
-    import Pagination from "../../Pagination";
+    import Pagination from "../components/Pagination";
     import { mapMutations } from 'vuex'
     import { mdbBtn, mdbInput, mdbIcon } from 'mdbvue'
 
@@ -57,8 +57,13 @@
                 fileCurrent: ''
             }
         },
+        created() {
+            this.setHeader(this.$route.meta.pageName);
+            this.setHint(this.$route.meta.hint);
+        },
+        computed: mapGetters(["allFiles"]),
         methods: {
-            ...mapMutations(["createFile", "deleteFile"]),
+            ...mapMutations(["createFile", "deleteFile", "setHeader", "setHint"]),
             selectImg(file) {
                 file.name = event.target.files[0].name;
                 file.content = event.target.files[0];
@@ -70,7 +75,6 @@
                 this.deleteFile(index);
             },
         },
-        computed: mapGetters(["allFiles"])
     }
 </script>
 

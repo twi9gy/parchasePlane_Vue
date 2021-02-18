@@ -6,7 +6,7 @@
 
 <script>
   import MainLayout from "./layout/MainLayout";
-  import ReportLayout from "./layout/ReportLayout";
+  import PrivateLayout from "./layout/PrivateLayout";
 
   export default {
     computed : {
@@ -17,7 +17,7 @@
     },
     components: {
       MainLayout,
-      ReportLayout
+      PrivateLayout
     },
     methods: {
       logout: function () {

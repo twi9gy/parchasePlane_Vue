@@ -1,5 +1,5 @@
 <template>
-    <div class="report-layout">
+    <div class="private-layout">
         <!-- HEADER -->
         <div class="top">
             <div class="container">
@@ -28,23 +28,44 @@
                 <div class="row">
                     <article class="col-12 mb-3">
                         <section class="form-gradient">
-                            <div class="row">
+                            <div class="row mt-5">
                                 <div class="col-md-12 p-0">
                                     <mdb-card class="mt-5">
                                         <div class="header pt-3 pb-2 blue-gradient z-depth-1-half rounded header-report">
                                             <div class="row d-flex justify-content-center">
                                                 <div class="col-4 d-flex justify-content-start">
-                                                    <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
-                                                        <mdb-icon  icon="home" />
-                                                    </mdb-btn>
+
+                                                    <router-link :to="{name: 'privateOffice'}">
+                                                        <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                                            <mdb-icon  icon="user-astronaut" />
+                                                        </mdb-btn>
+                                                    </router-link>
+
+                                                    <router-link :to="{name: 'categories'}">
+                                                        <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                                            <mdb-icon  icon="boxes" />
+                                                        </mdb-btn>
+                                                    </router-link>
+
+                                                    <router-link :to="{name: 'reports'}">
+                                                        <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                                            <mdb-icon  icon="file-invoice-dollar" />
+                                                        </mdb-btn>
+                                                    </router-link>
+
                                                 </div>
                                                 <div class="col-4">
                                                     <h3 class="white-text">{{ this.getPage }}</h3>
                                                 </div>
                                                 <div class="col-4 d-flex justify-content-end">
-                                                    <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
-                                                        <mdb-icon  icon="info-circle" />
-                                                    </mdb-btn>
+
+                                                    <router-link :to="{name: 'home'}">
+                                                        <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                                            <mdb-icon  icon="home" />
+                                                        </mdb-btn>
+                                                    </router-link>
+
+                                                    <Tooltip :icon="'info-circle'"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,10 +95,12 @@
     import NavBar from "../components/NavBar";
     import Footer from "../components/Footer";
     import {mapGetters} from "vuex";
+    import Tooltip from "../components/Tooltip";
 
     export default {
         name: "ReportLayout",
         components: {
+            Tooltip,
             mdbCard,
             mdbCardBody,
             mdbIcon,
@@ -126,6 +149,7 @@
     }
     main {
         margin-top: 70px;
+        min-height: 100vh;
     }
     .header-report {
         padding: 1.5rem;

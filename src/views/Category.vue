@@ -1,66 +1,144 @@
 <template>
-    <!-- Добавить not_found при неправильном id https://github.com/twi9gy/Resume/blob/main/src/components/Main_Form.vue -->
-    <div class="mb-3">
-        <section class="form-gradient">
-            <mdb-row class="d-flex justify-content-center">
-                <mdb-col md="12" class="p-0">
-                    <mdb-card class="mt-5">
-                        <div class="header pt-3 pb-2 blue-gradient z-depth-1-half rounded header-category">
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-4 d-flex justify-content-start">
-                                    <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
-                                        <mdb-icon  icon="home" />
-                                    </mdb-btn>
+    <div class="mb-2">
+        <div class="row justify-content-center">
+            <div class="col-10">
+
+                <div class="row mb-2 mt-2" v-if="fileProgress > 0">
+                    <div class="col-12 text-center">
+                        <b-progress :max="100" v-model="fileProgress"
+                                    class="text-center"
+                                    show-progress animated>{{ fileCurrent }} {{ fileProgress }} %</b-progress>
+                    </div>
+                </div>
+
+                <div class="row mt-2 justify-content-center" v-for="(file, index) in allFiles" :key="file.id">
+                    <div class="col-lg-9 col-md-6 col-sm-12">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="mt-3 rounded h-50 z-depth-1-half p-2 primary-color"
+                                     :style="{ color : activeColor }"
+                                      @mouseenter="selectColor"  >
+                                    <mdb-icon class="icon-file" far icon="file" />
                                 </div>
-                                <div class="col-4">
-                                    <h3 class="white-text">Категория: {{ this.category.name }}</h3>
-                                </div>
-                                <div class="col-4 d-flex justify-content-end">
-                                    <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
-                                        <mdb-icon  icon="info-circle" />
-                                    </mdb-btn>
-                                </div>
+                            </div>
+                            <div class="col-10">
+                                <mdb-input label="Подпись для файла" v-model="file.name"></mdb-input>
                             </div>
                         </div>
-                        <mdb-card-body >
-                            <div class="container-fluid">
-                                <UploadForm />
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-12 mt-4">
+                        <div class="row">
+                            <template v-if="file.is_new">
+                                <div class="col-4">
+                                    <div class="file-field input-field">
+                                        <mdb-btn color="primary" size="md" class="">
+                                            <mdb-icon far icon="folder-open" />
+                                            <input type="file" @change="selectImg(file)">
+                                        </mdb-btn>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <mdb-btn color="default" size="md" ><mdb-icon  icon="upload" /></mdb-btn>
+                                </div>
+                            </template>
+                            <div class="col-4">
+                                <mdb-btn color="danger" size="md" @click="delFile(index)"><mdb-icon  icon="trash" /></mdb-btn>
                             </div>
-                        </mdb-card-body>
-                    </mdb-card>
-                </mdb-col>
-            </mdb-row>
-        </section>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-2">
+                    <div class="col-md-7 d-flex justify-content-end">
+                        <mdb-btn color="default" size="lg" @click="addFile">Добавить файл</mdb-btn>
+                    </div>
+                    <div class="col-5 mt-3 d-flex justify-content-end">
+                        <Pagination />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbIcon, mdbBtn } from 'mdbvue';
     import { mapGetters } from 'vuex';
-    import UploadForm from "../components/privateOfficeComponents/UploadForm";
+    import { mapMutations } from 'vuex'
+    import { mdbBtn, mdbInput, mdbIcon } from 'mdbvue'
+    import Pagination from "../components/Pagination";
 
     export default {
-        name: "Category",
+        name: "uploadForm",
         components: {
-            UploadForm,
-            mdbRow,
-            mdbCol,
-            mdbCard,
-            mdbCardBody,
-            mdbIcon,
-            mdbBtn
+            Pagination,
+            mdbBtn,
+            mdbInput,
+            mdbIcon
         },
-        created() {
-            if (typeof this.$route.params.id !== "undefined") {
-                this.is_edit = true;
+        data() {
+            return {
+                fileProgress: 0,
+                fileCurrent: '',
+                colorArray: [
+                    '#4285F4',
+                    '#00C851',
+                    '#ffbb33',
+                    '#ff4444',
+                    '#33b5e5',
+                    '#aa66cc',
+                    '#2BBBAD',
+                ],
+                activeColor: 'red'
             }
         },
+        created() {
+            this.setHeader(this.$route.meta.pageName + this.category.name);
+            this.setHint(this.$route.meta.hint)
+        },
         computed: {
-            ...mapGetters(["getCategoryById"]),
+            ...mapGetters(["getCategoryById", "allFiles"]),
             category() {
                 return  this.getCategoryById(this.$route.params.id);
-            },
+            }
         },
+        methods: {
+            ...mapMutations(["createFile", "deleteFile", "setHeader", "setHint"]),
+            selectImg(file) {
+                file.name = event.target.files[0].name;
+                file.content = event.target.files[0];
+                /*
+                let formData = new FormData();
+                formData.append('file', this.$refs.file.files[0]);
+                this.axios({
+                    method: 'POST',
+                    url: 'http://api/upload',
+                    data: formData,
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                }).then(response => (this.resume.imgurl_resume = response.data.filename))
+                    .catch(error => (console.log(error)));
+                 */
+            },
+            async uploadFile(file) {
+                let form = new FormData();
+                form.append('name', file.name);
+                form.append('file', file.content);
+            },
+            addFile() {
+                this.createFile();
+            },
+            delFile(index) {
+                this.deleteFile(index);
+            },
+            selectColor() {
+                let rand = Math.floor(Math.random() * this.colorArray.length);
+                this.activeColor = this.colorArray[rand];
+            }
+        }
     }
 </script>
 

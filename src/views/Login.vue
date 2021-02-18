@@ -6,7 +6,7 @@
                     <mdb-row>
                         <mdb-col>
                             <!-- Material form login -->
-                            <form class="login" @submit.prevent="login">
+                            <form class="login" @submit.prevent="loginHandler">
                                 <template>
                                     <section class="form-gradient">
                                         <mdb-row class="d-flex justify-content-center">
@@ -19,14 +19,60 @@
                                                     </div>
                                                     <mdb-card-body class="mx-4 mt-4">
 
-                                                        <mdb-input label="Email" type="text" v-model="getProfile.email"/>
-                                                        <mdb-input label="Пароль" type="password" v-model="getProfile.password"
-                                                                   required containerClass="mb-0"/>
+                                                        <div class="md-form" :class="{'is-invalid':
+                                                            ($v.email.$dirty && !$v.email.required) ||
+                                                            ($v.email.$dirty && !$v.email.email)}">
+                                                            <input id="email_input" type="text" class=" form-control"
+                                                                @input="$refs.email_label.classList.add('active')"
+                                                                @focusout="onFocusOut"
+                                                                v-model.trim="email"
+                                                                :class="{'is-invalid':
+                                                                ($v.email.$dirty && !$v.email.required) ||
+                                                                ($v.email.$dirty && !$v.email.email)}"/>
+                                                            <label ref="email_label" for="email_input" class="mr-5">Email</label>
+
+                                                            <div class="invalid-feedback"
+                                                                 v-if="$v.email.$dirty && !$v.email.required">
+                                                                Поле Email не должно быть пустым.
+                                                            </div>
+
+                                                            <div class="invalid-feedback"
+                                                                 v-else-if="$v.email.$dirty && !$v.email.email">
+                                                                Введите корректный Email.
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="md-form" :class="{'is-invalid':
+                                                            ($v.password.$dirty && !$v.password.required) ||
+                                                            ($v.email.$dirty && !$v.email.email)}">
+
+                                                            <input id="password_input" type="text" class=" form-control"
+                                                                   @input="$refs.password_label.classList.add('active')"
+                                                                   @focusout="onFocusOut"
+                                                                   v-model.trim="password"
+                                                                   :class="{'is-invalid':
+                                                                   ($v.password.$dirty && !$v.password.required) ||
+                                                                   ($v.email.$dirty && !$v.password.minLength)}"/>
+
+                                                            <label ref="password_label" for="password_input"
+                                                                   class="mr-5">Пароль</label>
+
+                                                            <div class="invalid-feedback" v-if="
+                                                                ($v.password.$dirty && !$v.password.required)">
+                                                                Поле пароль не должно быть пустым.
+                                                            </div>
+                                                            <div class="invalid-feedback" v-if="
+                                                                ($v.password.$dirty && !$v.password.minLength)">
+                                                                Пароль должен быть
+                                                                {{ $v.password.$params.minLength.min }}
+                                                                символом. Сейчас он {{ password.length }}
+                                                            </div>
+                                                        </div>
 
                                                         <mdb-row class="d-flex align-items-center mb-4">
                                                             <mdb-col md="5" class="d-flex align-items-start">
                                                                 <div class="text-center">
-                                                                    <mdb-btn rounded type="submit" >Вход</mdb-btn>
+                                                                    <mdb-btn rounded type="submit">Вход</mdb-btn>
                                                                 </div>
                                                             </mdb-col>
                                                             <mdb-col md="7" class="d-flex justify-content-end">
@@ -55,7 +101,8 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbContainer } from 'mdbvue';
+    import { email, required, minLength } from 'vuelidate/lib/validators'
+    import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbBtn, mdbContainer } from 'mdbvue';
 
     export default {
         name: "Login",
@@ -63,19 +110,46 @@
             mdbRow,
             mdbCol,
             mdbCard,
-            mdbInput,
             mdbBtn,
             mdbContainer,
             mdbCardBody
         },
+        data() {
+            return {
+                email: '',
+                password: ''
+            }
+        },
         computed: mapGetters(["getProfile"]),
+        validations: {
+            email: { email, required },
+            password: { required, minLength: minLength(8) }
+        },
         methods: {
-            login: function () {
+            loginHandler: function () {
+
+                if (this.$v.$invalid) {
+                    this.$v.$touch();
+                    return;
+                }
+
+                this.$router.push('/privateOffice');
+
+                /*
                 let email = this.email;
                 let password = this.password;
                 this.$store.dispatch('login', { email, password })
                     .then(() => this.$router.push('/privateOfficeComponents'))
                     .catch(err => console.log(err))
+                 */
+            },
+            onFocusOut() {
+                if (this.email === '') {
+                    this.$refs.email_label.classList.remove('active')
+                }
+                if (this.password === '') {
+                    this.$refs.password_label.classList.remove('active')
+                }
             }
         }
     }
@@ -142,6 +216,12 @@
         -webkit-transform-origin: 100% 100%;
         -ms-transform-origin: 100% 100%;
         transform-origin: 100% 100%; }
+    .is-invalid input {
+        border-bottom: 1px solid red!important;
+    }
+    .is-invalid input {
+        border-color: #dc3545;
+    }
 </style>
 
 

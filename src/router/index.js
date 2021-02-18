@@ -8,41 +8,26 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    meta: {
-      layout: 'main'
-    },
     component: () => import('../views/Home.vue')
   },
   {
     path: '/about',
     name: 'about',
-    meta: {
-      layout: 'main'
-    },
     component: () => import('../views/About.vue')
   },
   {
-    path: '/privateOffice',
-    name: 'privateOffice',
-    meta: {
-      layout: 'main'
-    },
-    component: () => import('../views/PrivateOffice')
+    path: '/contacts',
+    name: 'contacts',
+    component: () => import('../views/Contacts')
   },
   {
     path: '/login',
     name: 'login',
-    meta: {
-      layout: 'main'
-    },
     component: () => import('../views/Login')
   },
   {
     path: '/register',
     name: 'register',
-    meta: {
-      layout: 'main'
-    },
     component: () => import('../views/Register')
   },
   {
@@ -50,33 +35,62 @@ const routes = [
     name: 'secure',
     component: () => import('../views/Secure'),
     meta: {
-      requiresAuth: true,
-      layout: 'main'
+      requiresAuth: true
     }
   },
   {
-    // Может быть report-layout
-    path: '/:id/category',
-    name: 'category',
+    path: '/privateOffice',
+    name: 'privateOffice',
     meta: {
-      layout: 'main'
+      layout: 'private',
+      pageName: 'Личный кабинет',
+      hint: 'Здесь можно изменить информацию о вашем профиле.'
     },
-    component: () => import('../views/Category')
+    component: () => import('../views/PrivateOffice')
+  },
+  {
+    path: '/reports',
+    name: 'reports',
+    meta: {
+      layout: 'private',
+      pageName: 'Отчеты',
+      hint: 'Здесь можно посметреть имеющиеся отчеты.'
+    },
+    component: () => import('../views/Reports')
   },
   {
     path: '/report/create',
     name: 'reportCreate',
     meta: {
-      layout: 'report'
+      layout: 'private',
+      pageName: 'Создание отчета',
+      hint: 'Здесь можно создать новый отчет.'
     },
     component: () => import('../views/ReportCreate')
   },
   {
+    path: '/categories',
+    name: 'categories',
+    meta: {
+      layout: 'private',
+      pageName: 'Каталог',
+      hint: 'Здесь можно посметреть имеющиеся категории.'
+    },
+    component: () => import('../views/Categories')
+  },
+  {
+    path: '/:id/category',
+    name: 'category',
+    meta: {
+      layout: 'private',
+      pageName: 'Категория: ',
+      hint: 'Здесь храняться файлы категории.'
+    },
+    component: () => import('../views/Category')
+  },
+  {
     path: '*',
     name: '404',
-    meta: {
-      layout: 'main'
-    },
     component: () => import('../views/Error')
   },
 ];

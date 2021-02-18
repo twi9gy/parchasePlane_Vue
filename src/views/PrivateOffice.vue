@@ -1,116 +1,52 @@
 <template>
-    <div class="container-fluid mt-5 mb-5">
-        <div class="row justify-content-center mb-2">
-            <div class="col-12 card">
-                <div class="row">
-                    <b-input-group>
-                        <b-col lg="4" class="pb-1">
-                            <h4 class="switch-title">Информация</h4>
-                            <mdb-btn class="w-100 p-1" color="primary" @click="InformationClick"></mdb-btn>
-                        </b-col>
-                        <b-col lg="4" class="pb-1">
-                            <h4 class="switch-title">Каталог</h4>
-                            <mdb-btn class="w-100 p-1" color="primary" @click="CatalogClick"></mdb-btn>
-                        </b-col>
-                        <b-col lg="4" class="pb-1">
-                            <h4 class="switch-title">Отчеты</h4>
-                            <mdb-btn class="w-100 p-1" color="primary" @click="ReportsClick"></mdb-btn>
-                        </b-col>
-                    </b-input-group>
+    <div class="profile-information">
+        <mdb-input placeholder="Email" class="mb-3 mt-0" v-model="getProfile.email">
+            <span class="input-group-text md-addon" slot="prepend"> <mdb-icon icon="user" /></span>
+        </mdb-input>
+
+        <mdb-input placeholder="Пароль" class="mb-3 mt-0" v-model="getProfile.password">
+            <span class="input-group-text md-addon" slot="prepend"> <mdb-icon icon="key" /></span>
+        </mdb-input>
+
+        <mdb-input placeholder="Телефон" class="mb-3 mt-0" v-model="getProfile.phone">
+            <span class="input-group-text md-addon" slot="prepend"> <mdb-icon icon="phone" /></span>
+        </mdb-input>
+
+        <mdb-row class="d-flex align-items-center mb-4">
+            <mdb-col md="12" class="d-flex justify-content-center">
+                <div class="text-center">
+                    <mdb-btn rounded type="submit" class="pl-5 pr-5">Изменить</mdb-btn>
                 </div>
-            </div>
-        </div>
-        <div class="row justify-content-center mb-2">
-            <div class="col-12">
-                <template>
-                    <section class="form-gradient">
-                        <mdb-row class="d-flex justify-content-center">
-                            <mdb-col md="12" class="p-0">
-                                <mdb-card class="mt-5">
-                                    <div class="blue-gradient header z-depth-1-half rounded pt-3 pb-2 header-profile">
-                                        <div class="row">
-                                            <div class="col-4 d-flex justify-content-start">
-                                                <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
-                                                    <mdb-icon  icon="home" />
-                                                </mdb-btn>
-                                            </div>
-                                            <div class="col-4">
-                                                <h3 class="white-text">{{ currentTitle }}</h3>
-                                            </div>
-                                            <div class="col-4 d-flex justify-content-end">
-                                                <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
-                                                    <mdb-icon  icon="info-circle" />
-                                                </mdb-btn>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <mdb-card-body >
-                                        <div class="container-fluid">
-                                            <component :is="profileElement"></component>
-                                        </div>
-                                    </mdb-card-body>
-                                </mdb-card>
-                            </mdb-col>
-                        </mdb-row>
-                    </section>
-                </template>
-            </div>
-        </div>
+            </mdb-col>
+        </mdb-row>
     </div>
 </template>
 
 <script>
-    import ProfileInformation from "../components/privateOfficeComponents/ProfileInformation";
-    import ProfileCatalog from "../components/privateOfficeComponents/ProfileCatalog";
-    import ProfileReports from "../components/privateOfficeComponents/ProfileReports";
-    import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbIcon } from 'mdbvue';
+    import {mapGetters, mapMutations} from 'vuex'
+    import { mdbRow, mdbCol, mdbInput, mdbBtn, mdbIcon } from 'mdbvue';
 
     export default {
-        name: "profileSwitch",
+        name: "ProfileInformation",
+        computed: mapGetters(["getProfile"]),
         components: {
-            mdbBtn,
-            ProfileInformation,
-            ProfileCatalog,
-            ProfileReports,
-            mdbRow,
-            mdbCol,
-            mdbCard,
-            mdbCardBody,
             mdbInput,
-            mdbIcon
+            mdbBtn,
+            mdbIcon,
+            mdbRow,
+            mdbCol
         },
-        data() {
-            return {
-                currentTitle: 'Личный кабинет',
-                profileElement: 'profile-information'
-            }
+        created() {
+            this.setHeader(this.$route.meta.pageName);
+            this.setHint(this.$route.meta.hint);
         },
-        props: ["profile"],
         methods: {
-            InformationClick () {
-                this.currentTitle = 'Личный кабинет';
-                this.profileElement = 'profile-information'
-            },
-            CatalogClick () {
-                this.currentTitle = 'Каталог';
-                this.profileElement = 'profile-catalog'
-            },
-            ReportsClick () {
-                this.currentTitle = 'Отчеты';
-                this.profileElement = 'profile-reports'
-            },
+            ...mapMutations(["setHeader", "setHint"]),
         }
     }
 </script>
 
 <style scoped>
-    .switch {
-        width: 27ch;
-    }
-    .switch-title {
-        margin-bottom: -7.5px;
-        margin-top: 5px;
-    }
     .header-profile {
         padding: 1.5rem;
         margin: -2rem 1rem 1rem 1rem;

@@ -90,5 +90,6 @@
     }
     main {
         margin-top: 70px;
+        min-height: 100vh;
     }
 </style>

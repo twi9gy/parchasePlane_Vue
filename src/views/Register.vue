@@ -5,7 +5,7 @@
                 <mdb-container>
                     <mdb-row>
                         <mdb-col>
-                            <form @submit.prevent="register">
+                            <form @submit.prevent="registerHandler">
                                 <template>
                                     <section class="form-gradient">
                                         <mdb-row class="d-flex justify-content-center">
@@ -18,16 +18,109 @@
                                                     </div>
                                                     <mdb-card-body class="mx-4 mt-4">
 
-                                                        <mdb-input label="Название организации" type="text" v-model="name"
-                                                                   required autofocus/>
+                                                        <div class="md-form" :class="{'is-invalid':
+                                                            ($v.name.$dirty && !$v.name.required) ||
+                                                            ($v.name.$dirty && !$v.name.minLength)}">
+                                                            <input id="name_input" type="text" class=" form-control"
+                                                                   @input="$refs.name_label.classList.add('active')"
+                                                                   @focusout="onFocusOut"
+                                                                   v-model.trim="name"
+                                                                   :class="{'is-invalid':
+                                                                ($v.name.$dirty && !$v.name.required) ||
+                                                                ($v.name.$dirty && !$v.name.minLength)}"/>
+                                                            <label ref="name_label" for="name_input"
+                                                                   class="mr-5">Название организации</label>
 
-                                                        <mdb-input label="Email" type="text" v-model="email"/>
+                                                            <div class="invalid-feedback"
+                                                                 v-if="$v.name.$dirty && !$v.name.required">
+                                                                Поле 'Название организации' не должно быть пустым.
+                                                            </div>
 
-                                                        <mdb-input label="Пароль" type="password" v-model="password"
-                                                                   required containerClass="mb-0"/>
+                                                            <div class="invalid-feedback"
+                                                                 v-else-if="$v.name.$dirty && !$v.name.minLength">
+                                                                'Название организации' должено быть
+                                                                {{ $v.name.$params.minLength.min }}
+                                                                символом. Сейчас он {{ name.length }}
+                                                            </div>
+                                                        </div>
 
-                                                        <mdb-input label="Пароль" type="password" v-model="password_confirmation"
-                                                                   required containerClass="mb-0"/>
+                                                        <div class="md-form" :class="{'is-invalid':
+                                                            ($v.email.$dirty && !$v.email.required) ||
+                                                            ($v.email.$dirty && !$v.email.email)}">
+                                                            <input id="email_input" type="text" class=" form-control"
+                                                                   @input="$refs.email_label.classList.add('active')"
+                                                                   @focusout="onFocusOut"
+                                                                   v-model.trim="email"
+                                                                   :class="{'is-invalid':
+                                                                ($v.email.$dirty && !$v.email.required) ||
+                                                                ($v.email.$dirty && !$v.email.email)}"/>
+                                                            <label ref="email_label" for="email_input" class="mr-5">Email</label>
+
+                                                            <div class="invalid-feedback"
+                                                                 v-if="$v.email.$dirty && !$v.email.required">
+                                                                Поле Email не должно быть пустым.
+                                                            </div>
+
+                                                            <div class="invalid-feedback"
+                                                                 v-else-if="$v.email.$dirty && !$v.email.email">
+                                                                Введите корректный Email.
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="md-form" :class="{'is-invalid':
+                                                            ($v.password.$dirty && !$v.password.required) ||
+                                                            ($v.email.$dirty && !$v.email.email)}">
+
+                                                            <input id="password_input" type="password" class=" form-control"
+                                                                   @input="$refs.password_label.classList.add('active')"
+                                                                   @focusout="onFocusOut"
+                                                                   v-model.trim="password"
+                                                                   :class="{'is-invalid':
+                                                                   ($v.password.$dirty && !$v.password.required) ||
+                                                                   ($v.email.$dirty && !$v.password.minLength)}"/>
+
+                                                            <label ref="password_label" for="password_input"
+                                                                   class="mr-5">Пароль</label>
+
+                                                            <div class="invalid-feedback" v-if="
+                                                                ($v.password.$dirty && !$v.password.required)">
+                                                                Поле пароль не должно быть пустым.
+                                                            </div>
+                                                            <div class="invalid-feedback" v-if="
+                                                                ($v.password.$dirty && !$v.password.minLength)">
+                                                                Пароль должен быть
+                                                                {{ $v.password.$params.minLength.min }}
+                                                                символом. Сейчас он {{ password.length }}
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="md-form" :class="{'is-invalid':
+                                                            ($v.passwordConfirmation.$dirty && !$v.passwordConfirmation.required) ||
+                                                            ($v.passwordConfirmation.$dirty && !$v.passwordConfirmation.sameAsPassword)}">
+
+                                                            <input id="passwordConfirmation_input" type="password"
+                                                                   class=" form-control"
+                                                                   @input="$refs.passwordConfirmation_label.classList.add('active')"
+                                                                   @focusout="onFocusOut"
+                                                                   v-model.trim="passwordConfirmation"
+                                                                   :class="{'is-invalid':
+                                                                   ($v.passwordConfirmation.$dirty && !$v.passwordConfirmation.required)||
+                                                                   ($v.passwordConfirmation.$dirty && !$v.passwordConfirmation.sameAsPassword)}"/>
+
+                                                            <label ref="passwordConfirmation_label"
+                                                                   for="passwordConfirmation_input"
+                                                                   class="mr-5">Повторный пароль</label>
+
+                                                            <div class="invalid-feedback" v-if="
+                                                                $v.passwordConfirmation.$dirty && !$v.passwordConfirmation.required">
+                                                                Поле повторный пароль не должно быть пустым.
+                                                            </div>
+
+                                                            <div class="invalid-feedback" v-else-if="
+                                                                $v.passwordConfirmation.$dirty && !$v.passwordConfirmation.sameAsPassword">
+                                                                Повторный пароль должен совпадать с паролем.
+                                                            </div>
+                                                        </div>
 
                                                         <mdb-row class="d-flex align-items-center mb-4">
                                                             <mdb-col md="5" class="d-flex align-items-start">
@@ -59,7 +152,8 @@
 </template>
 
 <script>
-    import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbContainer } from 'mdbvue';
+    import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbBtn, mdbContainer } from 'mdbvue';
+    import {email, minLength, required, sameAs } from "vuelidate/lib/validators";
 
 
     export default {
@@ -68,7 +162,6 @@
             mdbRow,
             mdbCol,
             mdbCard,
-            mdbInput,
             mdbBtn,
             mdbContainer,
             mdbCardBody
@@ -78,12 +171,27 @@
                 name : "",
                 email : "",
                 password : "",
-                password_confirmation : "",
+                passwordConfirmation : "",
                 is_admin : null
             }
         },
+        validations: {
+            email: { email, required },
+            password: { required, minLength: minLength(8) },
+            passwordConfirmation: { required, sameAsPassword: sameAs("password") },
+            name: {required, minLength: minLength(3) }
+        },
         methods: {
-            register: function () {
+            registerHandler: function () {
+
+                if (this.$v.$invalid) {
+                    this.$v.$touch();
+                    return;
+                }
+
+                this.$router.push('/privateOffice');
+
+                /*
                 let data = {
                     name: this.name,
                     email: this.email,
@@ -93,6 +201,21 @@
                 this.$store.dispatch('register', data)
                     .then(() => this.$router.push('/'))
                     .catch(err => console.log(err))
+                 */
+            },
+            onFocusOut() {
+                if (this.name === '') {
+                    this.$refs.name_label.classList.remove('active')
+                }
+                if (this.email === '') {
+                    this.$refs.email_label.classList.remove('active')
+                }
+                if (this.password === '') {
+                    this.$refs.password_label.classList.remove('active')
+                }
+                if (this.passwordConfirmation === '') {
+                    this.$refs.passwordConfirmation_label.classList.remove('active')
+                }
             }
         }
     }
@@ -158,5 +281,12 @@
         -webkit-backface-visibility: hidden;
         -webkit-transform-origin: 100% 100%;
         -ms-transform-origin: 100% 100%;
-        transform-origin: 100% 100%; }
+        transform-origin: 100% 100%;
+    }
+    .is-invalid input {
+        border-bottom: 1px solid red!important;
+    }
+    .is-invalid input {
+        border-color: #dc3545;
+    }
 </style>
