@@ -5,6 +5,7 @@ import files from "./modules/files";
 import profile from "./modules/profile";
 import createReport from "./modules/createReport";
 import pageLayout from "./modules/pageLayout";
+import plan from "./modules/plan";
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     profile,
     files,
     createReport,
-    pageLayout
+    pageLayout,
+    plan
   }
 })

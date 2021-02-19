@@ -1,7 +1,7 @@
 <template>
     <div>
-        <mdb-navbar :color="'primary'" position="top" dark href="#" transparent scrolling>
-            <mdb-navbar-brand to="/">Планы закупок</mdb-navbar-brand>
+        <mdb-navbar :color="'primary'" position="top" dark transparent scrolling>
+            <mdb-navbar-brand :to="{name: 'home'}">Планы закупок</mdb-navbar-brand>
 
             <mdb-navbar-toggler>
 
@@ -15,7 +15,8 @@
                         <mdb-dropdown-menu>
                             <mdb-dropdown-item :to="{name: 'privateOffice'}">Информация</mdb-dropdown-item>
                             <mdb-dropdown-item :to="{name: 'categories'}">Каталог</mdb-dropdown-item>
-                            <mdb-dropdown-item :to="{name: 'reports'}">Отчеты</mdb-dropdown-item>
+                            <mdb-dropdown-item :to="{name: 'demandForecast'}">Отчеты о прогнозировании сапроса</mdb-dropdown-item>
+                            <mdb-dropdown-item :to="{name: 'plans'}">Планы закупок</mdb-dropdown-item>
                         </mdb-dropdown-menu>
                     </mdb-dropdown>
 
@@ -24,7 +25,6 @@
                 <mdb-navbar-nav right>
                     <mdb-nav-item :to="{name: 'login'}">Вход</mdb-nav-item>
                     <mdb-nav-item :to="{name: 'register'}">Регистрация</mdb-nav-item>
-                    <span v-if="isLoggedIn"> | <mdb-nav-item :to="{name: 'logout'}">Выход</mdb-nav-item></span>
                 </mdb-navbar-nav>
 
             </mdb-navbar-toggler>

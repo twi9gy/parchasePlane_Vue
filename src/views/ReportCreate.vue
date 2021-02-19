@@ -64,7 +64,7 @@
     import { mapGetters } from 'vuex';
     import { mapMutations } from 'vuex';
     import { mdbListGroup, mdbBtn, mdbInput, mdbListGroupItem } from 'mdbvue';
-    import CollectionReportInfo from "../components/ReportsComponents/CollectionReportInfo";
+    import CollectionReportInfo from "../components/ReportComponents/CollectionReportInfo";
 
     export default {
         name: "ActionForm",

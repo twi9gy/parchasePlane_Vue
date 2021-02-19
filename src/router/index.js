@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '../store'
 
 Vue.use(VueRouter);
 
@@ -49,14 +48,24 @@ const routes = [
     component: () => import('../views/PrivateOffice')
   },
   {
-    path: '/reports',
-    name: 'reports',
+    path: '/demandForecast',
+    name: 'demandForecast',
     meta: {
       layout: 'private',
-      pageName: 'Отчеты',
+      pageName: 'Отчеты о прогнозировании спроса',
       hint: 'Здесь можно посметреть имеющиеся отчеты.'
     },
-    component: () => import('../views/Reports')
+    component: () => import('../views/DemandForecast')
+  },
+  {
+    path: '/plans',
+    name: 'plans',
+    meta: {
+      layout: 'private',
+      pageName: 'Планы закупок',
+      hint: 'Здесь можно посметреть имеющиеся планы закупок.'
+    },
+    component: () => import('../views/Plans')
   },
   {
     path: '/report/create',
@@ -99,18 +108,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-});
-
-router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next();
-      return;
-    }
-    next('/login');
-  } else {
-    next();
-  }
 });
 
 export default router

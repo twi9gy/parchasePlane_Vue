@@ -4,6 +4,7 @@ export default {
             demandForecast: false,
             purchasePlan: false,
             objectAnalysis: 'file',
+            method: 'Метод Хольта - Винтерса',
             fileName: '',
             radioReport: [
                 {

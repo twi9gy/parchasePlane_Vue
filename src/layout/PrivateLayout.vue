@@ -47,9 +47,15 @@
                                                         </mdb-btn>
                                                     </router-link>
 
-                                                    <router-link :to="{name: 'reports'}">
+                                                    <router-link :to="{name: 'demandForecast'}">
                                                         <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
                                                             <mdb-icon  icon="file-invoice-dollar" />
+                                                        </mdb-btn>
+                                                    </router-link>
+
+                                                    <router-link :to="{name: 'plans'}">
+                                                        <mdb-btn class="btn-outline-white btn-rounded btn-sm px-2">
+                                                            <mdb-icon  icon="poll-h" />
                                                         </mdb-btn>
                                                     </router-link>
 

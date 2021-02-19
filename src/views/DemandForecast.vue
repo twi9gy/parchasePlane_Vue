@@ -26,7 +26,7 @@
             <div class="row mb-2">
                 <div class="col-md-7 d-flex justify-content-end">
                     <router-link :to="{name: 'reportCreate'}">
-                        <mdb-btn color="default" size="lg" >Создать отчет</mdb-btn>
+                        <mdb-btn color="default" size="lg" >Создать отчет о прогнозировании спроса</mdb-btn>
                     </router-link>
                 </div>
                 <div class="col-5 mt-3 d-flex justify-content-end">
@@ -38,13 +38,12 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapMutations } from 'vuex';
     import Pagination from "../components/Pagination";
-    import { mapMutations } from 'vuex'
     import { mdbBtn, mdbInput, mdbIcon } from 'mdbvue'
 
     export default {
-        name: "ReportsForm",
+        name: "DemandForecast",
         components: {
             Pagination,
             mdbBtn,
