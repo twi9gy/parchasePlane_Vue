@@ -30,7 +30,7 @@
                     </router-link>
                 </div>
                 <div class="col-5 mt-3 d-flex justify-content-end">
-                    <Pagination />
+
                 </div>
             </div>
         </div>
@@ -38,14 +38,11 @@
 </template>
 
 <script>
-    import { mapGetters, mapMutations } from 'vuex';
-    import Pagination from "../components/Pagination";
     import { mdbBtn, mdbInput, mdbIcon } from 'mdbvue'
 
     export default {
         name: "DemandForecast",
         components: {
-            Pagination,
             mdbBtn,
             mdbInput,
             mdbIcon
@@ -57,12 +54,15 @@
             }
         },
         created() {
-            this.setHeader(this.$route.meta.pageName);
-            this.setHint(this.$route.meta.hint);
+          this.$store.commit('setHint', this.$route.meta.hint);
+          this.$store.commit('setHeader', this.$route.meta.pageName);
         },
-        computed: mapGetters(["allFiles"]),
+        computed: {
+          allFiles: function () {
+              return this.$store.getters.Files;
+          }
+        },
         methods: {
-            ...mapMutations(["createFile", "deleteFile", "setHeader", "setHint"]),
             selectImg(file) {
                 file.name = event.target.files[0].name;
                 file.content = event.target.files[0];

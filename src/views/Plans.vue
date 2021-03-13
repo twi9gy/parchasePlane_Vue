@@ -5,17 +5,11 @@
 </template>
 
 <script>
-    import { mapGetters, mapMutations } from 'vuex';
-
     export default {
         name: "Plans",
         created() {
-            this.setHeader(this.$route.meta.pageName);
-            this.setHint(this.$route.meta.hint);
-        },
-        computed: mapGetters([""]),
-        methods: {
-            ...mapMutations(["setHeader", "setHint"])
+            this.$store.commit('setHint', this.$route.meta.hint);
+            this.$store.commit('setHeader', this.$route.meta.pageName);
         }
     }
 </script>

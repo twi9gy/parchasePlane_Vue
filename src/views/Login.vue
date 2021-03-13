@@ -20,49 +20,49 @@
                                                     <mdb-card-body class="mx-4 mt-4">
 
                                                         <div class="md-form" :class="{'is-invalid':
-                                                            ($v.email.$dirty && !$v.email.required) ||
-                                                            ($v.email.$dirty && !$v.email.email)}">
+                                                            (this.$v.email.$dirty && !this.$v.email.required) ||
+                                                            (this.$v.email.$dirty && !this.$v.email.email)}">
                                                             <input id="email_input" type="text" class=" form-control"
                                                                 @input="$refs.email_label.classList.add('active')"
                                                                 @focusout="onFocusOut"
                                                                 v-model.trim="email"
                                                                 :class="{'is-invalid':
-                                                                ($v.email.$dirty && !$v.email.required) ||
-                                                                ($v.email.$dirty && !$v.email.email)}"/>
+                                                                (this.$v.email.$dirty && !this.$v.email.required) ||
+                                                                (this.$v.email.$dirty && !this.$v.email.email)}"/>
                                                             <label ref="email_label" for="email_input" class="mr-5">Email</label>
 
                                                             <div class="invalid-feedback"
-                                                                 v-if="$v.email.$dirty && !$v.email.required">
+                                                                 v-if="this.$v.email.$dirty && !this.$v.email.required">
                                                                 Поле Email не должно быть пустым.
                                                             </div>
 
                                                             <div class="invalid-feedback"
-                                                                 v-else-if="$v.email.$dirty && !$v.email.email">
+                                                                 v-else-if="this.$v.email.$dirty && !this.$v.email.email">
                                                                 Введите корректный Email.
                                                             </div>
                                                         </div>
 
                                                         <div class="md-form" :class="{'is-invalid':
-                                                            ($v.password.$dirty && !$v.password.required) ||
-                                                            ($v.email.$dirty && !$v.email.email)}">
+                                                            (this.$v.password.$dirty && !this.$v.password.required) ||
+                                                            (this.$v.email.$dirty && !this.$v.email.email)}">
 
-                                                            <input id="password_input" type="text" class=" form-control"
+                                                            <input id="password_input" type="password" class=" form-control"
                                                                    @input="$refs.password_label.classList.add('active')"
                                                                    @focusout="onFocusOut"
                                                                    v-model.trim="password"
                                                                    :class="{'is-invalid':
-                                                                   ($v.password.$dirty && !$v.password.required) ||
-                                                                   ($v.email.$dirty && !$v.password.minLength)}"/>
+                                                                   (this.$v.password.$dirty && !this.$v.password.required) ||
+                                                                   (this.$v.email.$dirty && !this.$v.password.minLength)}"/>
 
                                                             <label ref="password_label" for="password_input"
                                                                    class="mr-5">Пароль</label>
 
                                                             <div class="invalid-feedback" v-if="
-                                                                ($v.password.$dirty && !$v.password.required)">
+                                                                (this.$v.password.$dirty && !this.$v.password.required)">
                                                                 Поле пароль не должно быть пустым.
                                                             </div>
                                                             <div class="invalid-feedback" v-if="
-                                                                ($v.password.$dirty && !$v.password.minLength)">
+                                                                (this.$v.password.$dirty && !this.$v.password.minLength)">
                                                                 Пароль должен быть
                                                                 {{ $v.password.$params.minLength.min }}
                                                                 символом. Сейчас он {{ password.length }}
@@ -100,7 +100,6 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
     import { email, required, minLength } from 'vuelidate/lib/validators'
     import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbBtn, mdbContainer } from 'mdbvue';
 
@@ -116,32 +115,35 @@
         },
         data() {
             return {
-                email: '',
+                email : '',
                 password: ''
             }
         },
-        computed: mapGetters(["getProfile"]),
         validations: {
             email: { email, required },
             password: { required, minLength: minLength(8) }
         },
         methods: {
             loginHandler: function () {
-
+                // Проверяем валидацию полей формы
                 if (this.$v.$invalid) {
                     this.$v.$touch();
                     return;
                 }
-
-                this.$router.push('/privateOffice');
-
-                /*
-                let email = this.email;
-                let password = this.password;
-                this.$store.dispatch('login', { email, password })
-                    .then(() => this.$router.push('/privateOfficeComponents'))
-                    .catch(err => console.log(err))
-                 */
+                // формируем входные данные для авторизации
+                const formData = {
+                    username: this.email,
+                    password: this.password
+                };
+                // Вызываем метод авторизации
+                this.$store.dispatch('login', formData)
+                    .then(() => {
+                          this.$message(this, this.$store.getters.getMessage);
+                          this.$router.push('/privateOffice');
+                        })
+                    .catch(() => {
+                        this.$error(this, this.$store.getters.getMessage);
+                    });
             },
             onFocusOut() {
                 if (this.email === '') {

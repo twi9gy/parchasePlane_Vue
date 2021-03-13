@@ -1,14 +1,14 @@
 <template>
     <div class="profile-information">
-        <mdb-input placeholder="Email" class="mb-3 mt-0" v-model="getProfile.email">
+        <mdb-input placeholder="Email" class="mb-3 mt-0" v-model="User.email">
             <span class="input-group-text md-addon" slot="prepend"> <mdb-icon icon="user" /></span>
         </mdb-input>
 
-        <mdb-input placeholder="Пароль" class="mb-3 mt-0" v-model="getProfile.password">
+        <mdb-input placeholder="Пароль" class="mb-3 mt-0" v-model="User.password">
             <span class="input-group-text md-addon" slot="prepend"> <mdb-icon icon="key" /></span>
         </mdb-input>
 
-        <mdb-input placeholder="Телефон" class="mb-3 mt-0" v-model="getProfile.phone">
+        <mdb-input placeholder="Телефон" class="mb-3 mt-0" v-model="User.phone">
             <span class="input-group-text md-addon" slot="prepend"> <mdb-icon icon="phone" /></span>
         </mdb-input>
 
@@ -23,12 +23,15 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations} from 'vuex'
     import { mdbRow, mdbCol, mdbInput, mdbBtn, mdbIcon } from 'mdbvue';
 
     export default {
         name: "ProfileInformation",
-        computed: mapGetters(["getProfile"]),
+        computed: {
+          User: function () {
+              return this.$store.getters.getUser;
+          }
+        },
         components: {
             mdbInput,
             mdbBtn,
@@ -37,11 +40,8 @@
             mdbCol
         },
         created() {
-            this.setHeader(this.$route.meta.pageName);
-            this.setHint(this.$route.meta.hint);
-        },
-        methods: {
-            ...mapMutations(["setHeader", "setHint"]),
+            this.$store.commit('setHint', this.$route.meta.hint);
+            this.$store.commit('setHeader', this.$route.meta.pageName);
         }
     }
 </script>

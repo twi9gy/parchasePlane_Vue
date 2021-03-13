@@ -61,8 +61,6 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
-    import { mapMutations } from 'vuex';
     import { mdbListGroup, mdbBtn, mdbInput, mdbListGroupItem } from 'mdbvue';
     import CollectionReportInfo from "../components/ReportComponents/CollectionReportInfo";
 
@@ -76,12 +74,13 @@
             mdbListGroupItem
         },
         created() {
-            this.setHeader(this.$route.meta.pageName);
-            this.setHint(this.$route.meta.hint);
+            this.$store.commit('setHint', this.$route.meta.hint);
+            this.$store.commit('setHeader', this.$route.meta.pageName);
         },
-        computed: mapGetters(["getReportForm"]),
-        methods: {
-            ...mapMutations(["addMethod", "delMethod", "setHeader", "setHint"]),
+        computed: {
+          getReportForm: function () {
+              return this.$store.getters.getReportForm;
+          }
         }
     }
 </script>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from "vue-cli-plugin-mdb/generator/templates/newApp/src/store";
 
 Vue.use(VueRouter);
 
@@ -30,20 +31,13 @@ const routes = [
     component: () => import('../views/Register')
   },
   {
-    path: '/secure',
-    name: 'secure',
-    component: () => import('../views/Secure'),
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/privateOffice',
     name: 'privateOffice',
     meta: {
       layout: 'private',
       pageName: 'Личный кабинет',
-      hint: 'Здесь можно изменить информацию о вашем профиле.'
+      hint: 'Здесь можно изменить информацию о вашем профиле.',
+      requiresAuth: true
     },
     component: () => import('../views/PrivateOffice')
   },
@@ -53,7 +47,8 @@ const routes = [
     meta: {
       layout: 'private',
       pageName: 'Отчеты о прогнозировании спроса',
-      hint: 'Здесь можно посметреть имеющиеся отчеты.'
+      hint: 'Здесь можно посметреть имеющиеся отчеты.',
+      requiresAuth: true
     },
     component: () => import('../views/DemandForecast')
   },
@@ -63,7 +58,8 @@ const routes = [
     meta: {
       layout: 'private',
       pageName: 'Планы закупок',
-      hint: 'Здесь можно посметреть имеющиеся планы закупок.'
+      hint: 'Здесь можно посметреть имеющиеся планы закупок.',
+      requiresAuth: true
     },
     component: () => import('../views/Plans')
   },
@@ -73,7 +69,8 @@ const routes = [
     meta: {
       layout: 'private',
       pageName: 'Создание отчета',
-      hint: 'Здесь можно создать новый отчет.'
+      hint: 'Здесь можно создать новый отчет.',
+      requiresAuth: true
     },
     component: () => import('../views/ReportCreate')
   },
@@ -83,17 +80,19 @@ const routes = [
     meta: {
       layout: 'private',
       pageName: 'Каталог',
-      hint: 'Здесь можно посметреть имеющиеся категории.'
+      hint: 'Здесь можно посметреть имеющиеся категории.',
+      requiresAuth: true
     },
     component: () => import('../views/Categories')
   },
   {
-    path: '/:id/category',
+    path: '/category/:id',
     name: 'category',
     meta: {
       layout: 'private',
       pageName: 'Категория: ',
-      hint: 'Здесь храняться файлы категории.'
+      hint: 'Здесь храняться файлы категории.',
+      requiresAuth: true
     },
     component: () => import('../views/Category')
   },
@@ -108,6 +107,31 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+});
+
+// Фильтр для путей. Не авторизованные пользователи не могут перейти на страницы с метапараметром (requiresAuth: true)
+router.beforeEach((to, from, next) => {
+  // Проверяем авторизован ли пользователь.
+  let LoggedIN = ((typeof localStorage.getItem('userToken') !== 'undefined' && localStorage.getItem('userToken') !== null) ||
+      (typeof store.getters.getUser !== 'undefined' && store.getters.getUser !== null));
+
+  console.log(LoggedIN);
+
+  if (LoggedIN) {
+    // Если пользователь авторизован
+    if (to.name === 'login' || to.name === 'register') {
+      // Если пользователь авторизован и хочет попасть в login или register
+      next('/')
+    }
+    next();
+  } else {
+    // Если пользователь не авторизован
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      // Если для route нужна авторизация
+      next('/login');
+    }
+    next();
+  }
 });
 
 export default router
