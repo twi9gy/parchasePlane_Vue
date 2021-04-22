@@ -1,13 +1,13 @@
 <template>
     <mdb-jumbotron class="p-4 mb-0">
-        <div class="row" v-if="getReportForm.demandForecast">
+        <div class="row" v-if="form.demandForecast">
             <div class="col-12">
                 <h4>Выберите метод анализа временных рядов: </h4>
             </div>
         </div>
-        <div class="row" v-if="getReportForm.demandForecast">
+        <div class="row" v-if="form.demandForecast">
             <div class="col-12">
-                <b-form-select class="browser-default custom-select" v-model="getReportForm.method" :options="methods">
+                <b-form-select class="browser-default custom-select" v-model="form.method" :options="methods">
                 </b-form-select>
             </div>
         </div>
@@ -28,15 +28,15 @@
             </div>
         </div>
         <div class="row mt-2">
-            <div class="col-12" v-if="getReportForm.demandForecast">
-                <SelectItem :name="getSelectItem.forecast.nameSelect + ' для прогнозирования спроса:'"
-                            :label="getSelectItem.forecast.label"
-                            :list-item="getSelectItem.forecast.listItem" />
+            <div class="col-12 pl-0 pr-0" v-if="form.demandForecast">
+                <SelectItem :name="selectName + ' для прогнозирования спроса:'"
+                            :label="selectLabel"
+                            :list-item="selectItem" />
             </div>
-            <div class="col-12 mt-2" v-if="getReportForm.purchasePlan">
-                <SelectItem :name="getSelectItem.plan.nameSelect + ' для создания плана закупок:'"
-                            :label="getSelectItem.plan.label"
-                            :list-item="getSelectItem.plan.listItem" />
+            <div class="col-12 mt-2 pl-0 pr-0" v-if="form.purchasePlan">
+                <SelectItem :name="selectName + ' для создания плана закупок:'"
+                            :label="selectLabel"
+                            :list-item="selectItem" />
             </div>
         </div>
     </mdb-jumbotron>
@@ -47,7 +47,7 @@
     import SelectItem from "./SelectItem";
     import { mdbJumbotron, mdbListGroup } from 'mdbvue';
 
-    import { mapGetters, mapMutations } from 'vuex';
+    import { mapMutations } from 'vuex';
 
     export default {
         name: "CollectionReportInfo",
@@ -72,9 +72,38 @@
                 ]
             }
         },
-        computed: mapGetters(["getReportForm", "getSelectItem"]),
+        computed: {
+            form: function () { return  this.$store.getters.reportForm },
+            selectItem: function () {
+                let listItem = [];
+                if (this.form.objectAnalysis === 'category') {
+                    this.categories.forEach(function(item) {
+                        listItem.push({ name:item.name });
+                    });
+                } else {
+                    this.files.forEach(function(item) {
+                        listItem.push({ name:item.filename });
+                    });
+                }
+                return listItem;
+            },
+            selectName: function () { return this.$store.getters.nameSelect },
+            selectLabel: function () { return this.$store.getters.labelSelect },
+            categories: function () { return this.$store.getters.allCategories },
+            files: function () { return this.$store.getters.saleFiles }
+        },
         methods: {
             ...mapMutations(["changeObject"])
+        },
+        async mounted() {
+            if (this.$store.getters.allCategories.length === 0) {
+                await this.$store.dispatch('getAllCategories')
+                    .catch(() => this.$error(this, this.$store.getters.getMessage));
+            }
+            if (this.$store.getters.saleFiles) {
+                await this.$store.dispatch('getAllSaleFiles')
+                    .catch(() => this.$error(this, this.$store.getters.getMessage));
+            }
         }
     }
 </script>

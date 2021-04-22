@@ -1,40 +1,41 @@
 import axios from "axios";
 
-const API_URL = "http://purchase_plan.local:81/api/v1/categories/";
+const API_URL = "http://purchase_plan.local:81/api/v1/sales_file";
 
 export default {
     state: {
-        categories: []
+        files : []
     },
     mutations: {
-        setCategories(state, categories) {
-            categories.forEach(function(item) {
-                item.is_new = false;
-                item.editMode = false;
+        setSaleFiles(state, files) {
+            state.files = files;
+            state.files.forEach(function(item) {
+                item.new = false;
+                item.edit = false;
+                item.loaded = true;
             });
-            state.categories = categories;
         },
-        clearCategories(state) { state.categories = [] },
-        createCategory(state) {
-            state.categories.push({
+        clearSaleFiles(state) { state.files = [] },
+        createSaleFile(state) {
+            state.files.push({
                 id: Date.now() + ' new',
-                name: '',
-                editMode: true,
-                is_new: true
+                filename: '',
+                edit: false,
+                new: true,
+                loaded: false
             });
         },
-        deleteCategory(state, index) {
-            // Ищем категорию с индексом = index
-            let elem = state.categories.filter(x => x.id === index);
+        deleteSaleFile(state, index) {
+            // Ищем файл с индексом = index
+            let elem = state.files.filter(x => x.id === index);
             // Получаем индекс элмента в массиве
-            let ind = state.categories.indexOf(elem[0]);
-            // Удаляем категорию из массива категорий
-            state.categories.splice(ind, 1);
+            let ind = state.files.indexOf(elem[0]);
+            // Удаляем файл из массива файлов
+            state.files.splice(ind, 1);
         }
     },
     actions: {
-        // Получить все категории
-        async getAllCategories({ commit }) {
+        async getAllSaleFiles({ commit }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
@@ -46,50 +47,62 @@ export default {
                         'Authorization' : token
                     }
                 })
-                .then(response => {
-                    commit('setCategories', response.data.categories);
-                })
+                .then(response => { commit('setSaleFiles', response.data.files) })
                 .catch(error => {
                     commit('setMessage', error.response.data.message)
                     throw error;
                 });
         },
-        async addCategory({ commit }, { name, category }) {
+        // Получить файлы по id категории
+        async getSaleFilesByCategoryId({ commit, getters }) {
             // Устанавливаем в заголовки Http токен JWT
-            const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
-            // Данные для создания новой категории
-            const data = JSON.stringify({
-                "name" : name,
-            });
+            const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
-            await axios.post(
-                API_URL + 'new',
-                    data,
-                    {
+            await axios.get(
+                API_URL + '?category_id=' + getters.getCategory.id,
+                {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                         'Authorization' : token
                     }
                 })
+                .then(response => { commit('setSaleFiles', response.data.files) })
+                .catch(error => {
+                    commit('setMessage', error.response.data.message)
+                    throw error;
+                });
+        },
+        async addSaleFile({ commit }, { formData, file }) {
+            // Устанавливаем в заголовки Http токен JWT
+            const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
+            // Запрос к API
+            await axios.post(
+                API_URL + '/new',
+                formData,
+                {
+                    headers: {
+                        'Authorization' : token
+                    }
+                })
                 .then(response => {
-                    commit('setMessage',response.data.message);
-                    category.id = response.data.id;
+                    commit('setMessage', response.data.message);
+                    file.id = response.data.file_id;
                 })
                 .catch(error => {
                     commit('setMessage', error.response.data.message);
                     throw error;
                 });
         },
-        async editCategory({ commit }, { name, id }) {
+        async editSaleFile({ commit }, { file_id, filename }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Данные для создания новой категории
             const data = JSON.stringify({
-                "name" : name
+                "filename" : filename
             });
             // Запрос к API
             await axios.post(
-                API_URL + id + '/edit',
+                API_URL + '/' + file_id + '/edit',
                 data,
                 {
                     headers: {
@@ -103,12 +116,12 @@ export default {
                     throw error;
                 });
         },
-        async delCategory({ commit }, { id }) {
+        async delSaleFile({ commit }, { file_id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Запрос к API
             await axios.delete(
-                API_URL + id,
+                API_URL + '/' + file_id,
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
@@ -116,8 +129,8 @@ export default {
                     }
                 })
                 .then(response => {
+                    commit('deleteSaleFile', file_id);
                     commit('setMessage', response.data.message);
-                    commit('deleteCategory', id);
                 })
                 .catch(error => {
                     commit('setMessage', error.response.data.message);
@@ -126,8 +139,6 @@ export default {
         }
     },
     getters: {
-        allCategories(state) {
-            return state.categories;
-        }
+        saleFiles(state) { return state.files }
     }
 }

@@ -12,7 +12,7 @@ export default {
     },
     actions: {
         // Метод для получения пользователя по Jwt token
-        async currentUser({ commit }) {
+        async currentUser({ dispatch, commit }) {
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
             await axios.get(
@@ -27,10 +27,9 @@ export default {
                     // Устанавливаем текущего пользователя в хранилище
                     commit('setUserInfo', response.data);
                 } )
-                .catch(error => {
-                    console.log(error);}
-                    //commit('setMessage', error.message) }
-                );
+                .catch(() => {
+                    dispatch('refreshUser');
+                });
         },
     },
     getters: {

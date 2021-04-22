@@ -1,31 +1,15 @@
 import axios from "axios";
 
-const API_URL = "http://purchase_plan.local:81/api/v1/file/sales";
+const API_URL = "http://purchase_plan.local:81/api/v1/demand_forecast";
 
 export default {
     state: {
-        files : []
+        files: []
     },
     mutations: {
-        setFiles(state, files) {
-            state.files = files;
-            state.files.forEach(function(item) {
-                item.new = false;
-                item.edit = false;
-                item.loaded = true;
-            });
-        },
-        clearFiles(state) { state.files = [] },
-        createFile(state) {
-            state.files.push({
-                id: Date.now() + ' new',
-                filename: '',
-                edit: false,
-                new: true,
-                loaded: false
-            });
-        },
-        deleteFile(state, index) {
+        setDemandForecastFiles(state, files) { state.files = files },
+        clearDemandForecastFiles(state) { state.files = null },
+        deleteDemandForecastFiles(state, index) {
             // Ищем файл с индексом = index
             let elem = state.files.filter(x => x.id === index);
             // Получаем индекс элмента в массиве
@@ -35,33 +19,54 @@ export default {
         }
     },
     actions: {
-        // Добавть пагинатор
         // Получить все категории
-        async getAllFiles({ commit, getters }) {
+        async getAllDemandForecastFiles({ commit }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
             await axios.get(
-                API_URL + '?category_id=' + getters.getCategory.id,
+                API_URL + '/',
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                         'Authorization' : token
                     }
                 })
-                .then(response => { commit('setFiles', response.data.files) })
+                .then(response => { commit('setDemandForecastFiles', response.data.files) })
                 .catch(error => {
                     commit('setMessage', error.response.data.message)
                     throw error;
                 });
         },
-        async addFile({ commit }, { formData, file }) {
+        async addDemandForecastFile({ commit }, {
+            filename,
+            method,
+            objectAnalysis,
+            category = null,
+            file = null,
+            interval,
+            column,
+            delimiter,
+            period,
+        }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
+            // Данные для создания новой категории
+            const data = JSON.stringify({
+                "filename": filename,
+                "method": method,
+                "object_analysis": objectAnalysis,
+                "category": category,
+                "file": file,
+                "freq": interval,
+                "column": column,
+                "delimiter": delimiter,
+                "period": period
+            });
             // Запрос к API
             await axios.post(
                 API_URL + '/new',
-                formData,
+                data,
                 {
                     headers: {
                         'Authorization' : token
@@ -69,38 +74,13 @@ export default {
                 })
                 .then(response => {
                     commit('setMessage', response.data.message);
-                    console.log(response.data);
-                    file.id = response.data.file_id;
                 })
                 .catch(error => {
                     commit('setMessage', error.response.data.message);
                     throw error;
                 });
         },
-        async editFile({ commit }, { file_id, filename }) {
-            // Устанавливаем в заголовки Http токен JWT
-            const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
-            // Данные для создания новой категории
-            const data = JSON.stringify({
-                "filename" : filename
-            });
-            // Запрос к API
-            await axios.post(
-                API_URL + '/' + file_id + '/edit',
-                data,
-                {
-                    headers: {
-                        'Content-Type': 'application/json; charset=UTF-8',
-                        'Authorization' : token
-                    }
-                })
-                .then(response => { commit('setMessage', response.data.message) })
-                .catch(error => {
-                    commit('setMessage', error.response.data.message);
-                    throw error;
-                });
-        },
-        async delFile({ commit }, { file_id }) {
+        async delDemandForecastFile({ commit }, { file_id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Запрос к API
@@ -113,7 +93,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    commit('deleteFile', file_id);
+                    commit('deleteDemandForecastFiles', file_id);
                     commit('setMessage', response.data.message);
                 })
                 .catch(error => {
@@ -123,6 +103,6 @@ export default {
         }
     },
     getters: {
-        Files(state) { return state.files }
+        demandForecastFiles(state) { return state.files; }
     }
 }

@@ -188,13 +188,13 @@
                     return;
                 }
                 // формируем входные данные для авторизации
-                const formData = {
+                const Data = {
                   email: this.email,
                   password: this.password,
-                  nameCompany: this.nameCompany
+                  company_name: this.nameCompany
                 };
                 // Вызываем метод авторизации
-                this.$store.dispatch('register', formData)
+                this.$store.dispatch('register', Data)
                     .then(() => {
                         this.$router.push('/privateOffice');
                         this.$message(this, this.$store.getters.getMessage);

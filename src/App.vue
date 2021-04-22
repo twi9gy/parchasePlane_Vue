@@ -55,7 +55,8 @@
     },
     async mounted() {
       if (this.$store.getters.getUser) {
-        await this.$store.dispatch('currentUser');
+        await this.$store.dispatch('currentUser')
+            .catch(() => { this.$store.dispatch('logout') });
       }
     },
   }

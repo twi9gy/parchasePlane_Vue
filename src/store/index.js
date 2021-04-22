@@ -6,9 +6,9 @@ import auth_service from "../store/modules/auth_service";
 import user_service from "../store/modules/user_service"
 import categories_service from "../store/modules/categories_service";
 import category_service from "../store/modules/category_service";
-import files_service from "./modules/files_service";
-
-import createReport from "./modules/createReport";
+import saleFiles_service from "./modules/saleFiles_service";
+import demandForecast_service from "./modules/demandForecast_service";
+import plans_service from "./modules/plans_service";
 
 Vue.use(Vuex);
 
@@ -34,12 +34,13 @@ export default new Vuex.Store({
         }
     },
     modules: {
-        createReport,
         page_service,
         auth_service,
         user_service,
         categories_service,
         category_service,
-        files_service
+        saleFiles_service,
+        demandForecast_service,
+        plans_service
     }
 })

@@ -138,8 +138,8 @@
                 // Вызываем метод авторизации
                 this.$store.dispatch('login', formData)
                     .then(() => {
-                          this.$message(this, this.$store.getters.getMessage);
-                          this.$router.push('/privateOffice');
+                          this.$router.push('/privateOffice')
+                              .then(this.$message(this, this.$store.getters.getMessage))
                         })
                     .catch(() => {
                         this.$error(this, this.$store.getters.getMessage);

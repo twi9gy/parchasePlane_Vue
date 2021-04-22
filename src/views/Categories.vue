@@ -91,11 +91,6 @@
     export default {
         name: "ProfileCatalog",
         mixins: [paginations],
-        computed: {
-            page: function () {
-                return this.$store.getters.Page;
-            }
-        },
         components: {
             mdbBtn,
             mdbCard,

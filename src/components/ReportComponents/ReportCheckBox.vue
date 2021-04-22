@@ -2,7 +2,7 @@
     <mdb-list-group-item :action="false" class="w-50">
         <div class="custom-control custom-checkbox custom-control-inline ml-auto mr-auto">
             <input type="checkbox" class="custom-control-input" :id="id" :value="id"
-                   v-model="getReportForm.method">
+                   v-model="form.method">
             <label class="custom-control-label" :for="id">{{label}}</label>
         </div>
     </mdb-list-group-item>
@@ -10,7 +10,6 @@
 
 <script>
     import { mdbListGroupItem } from 'mdbvue';
-    import { mapGetters } from 'vuex';
 
     export default {
         name: "ReportCheckBox",
@@ -18,7 +17,9 @@
         components: {
             mdbListGroupItem
         },
-        computed: mapGetters(["getReportForm"])
+        computed: {
+            form: function () { return this.$store.getters.reportForm },
+        }
     }
 </script>
 

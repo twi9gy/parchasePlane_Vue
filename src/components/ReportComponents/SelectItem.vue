@@ -7,10 +7,10 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-12">
-                <input class="form-control" list="objects_select" :placeholder="label"/>
+                <input class="form-control" list="objects_select" :placeholder="label" />
                 <datalist id="objects_select">
                     <option v-for="elem in listItem" :key="elem.text">
-                        {{ elem.text }}
+                        {{ elem.name }}
                     </option>
                 </datalist>
             </div>

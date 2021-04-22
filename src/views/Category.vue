@@ -104,7 +104,7 @@
                 return this.$store.getters.getCategory;
             },
             files() {
-                return this.$store.getters.Files;
+                return this.$store.getters.saleFiles;
             }
         },
         async mounted() {
@@ -117,13 +117,13 @@
               this.$store.commit('setHeader', this.$route.meta.pageName + this.category.name);
 
               // Получаем файлы категории
-              await this.$store.dispatch('getAllFiles')
+              await this.$store.dispatch('getSaleFilesByCategoryId')
                   .catch(() => {
                     this.$error(this, this.$store.getters.getMessage);
                   })
             }
 
-            this.setupPagination(this.$store.getters.Files);
+            this.setupPagination(this.$store.getters.saleFiles);
         },
         methods: {
             selectFile(file) {
@@ -131,21 +131,19 @@
                 file.content = event.target.files[0];
             },
             addFile() {
-              this.$store.commit('createFile');
+              this.$store.commit('createSaleFile');
 
-              this.setupPagination(this.$store.getters.Files);
+              this.setupPagination(this.$store.getters.saleFiles);
             },
             async delFile(file) {
-              console.log(file);
               if (file.new) {
-                  this.$store.commit('deleteFile', file.id);
+                  this.$store.commit('deleteSaleFile', file.id);
               } else {
-                 await this.$store.dispatch('delFile', { 'file_id' : file.id })
+                 await this.$store.dispatch('delSaleFile', { 'file_id' : file.id })
                       .then(()=>{ this.$message(this, this.$store.getters.getMessage) })
                       .catch(() => { this.$error(this, this.$store.getters.getMessage) });
               }
-
-              this.setupPagination(this.$store.getters.Files);
+              this.setupPagination(this.$store.getters.saleFiles);
             },
             saveFile(file) {
                 if (file.new) {
@@ -155,7 +153,7 @@
                     formData.append('filename', file.filename);
                     formData.append('category_id', this.$store.getters.getCategory.id);
 
-                    this.$store.dispatch('addFile', { 'formData' : formData, 'file' : file })
+                    this.$store.dispatch('addSaleFile', { 'formData' : formData, 'file' : file })
                         .then(() => {
                           this.$message(this, this.$store.getters.getMessage);
                           console.log(file.id);
@@ -170,7 +168,7 @@
                       "filename" : file.filename,
                       "file_id" : file.id
                     };
-                    this.$store.dispatch('editFile', formData)
+                    this.$store.dispatch('editSaleFile', formData)
                         .then(()=>{
                             this.$message(this, this.$store.getters.getMessage);
                             file.edit = false;
@@ -182,4 +180,43 @@
     }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+/* File Input
+========================================================================== */
+.file-field {
+  position: relative;
+}
+
+.file-field .file-path-wrapper {
+  overflow: hidden;
+  padding-left: 10px;
+}
+
+.file-field input.file-path {
+  width: 100%;
+}
+
+.file-field span {
+  cursor: pointer;
+}
+
+.file-field input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.file-field input[type=file]::-webkit-file-upload-button {
+  display: none;
+}
+</style>

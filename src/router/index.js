@@ -42,7 +42,7 @@ const routes = [
     component: () => import('../views/PrivateOffice')
   },
   {
-    path: '/demandForecast',
+    path: '/demand_forecast',
     name: 'demandForecast',
     meta: {
       layout: 'private',
@@ -51,6 +51,17 @@ const routes = [
       requiresAuth: true
     },
     component: () => import('../views/DemandForecast')
+  },
+  {
+    path: '/demand_forecast/create',
+    name: 'demandForecastCreate',
+    meta: {
+      layout: 'private',
+      pageName: 'Создание отчета о прогнозировании спроса',
+      hint: 'Здесь можно создать новый отчет о прогнозировании спроса.',
+      requiresAuth: true
+    },
+    component: () => import('../views/DemandForecastForm')
   },
   {
     path: '/plans',
@@ -64,15 +75,15 @@ const routes = [
     component: () => import('../views/Plans')
   },
   {
-    path: '/report/create',
-    name: 'reportCreate',
+    path: '/plans/create',
+    name: 'plans_create',
     meta: {
       layout: 'private',
-      pageName: 'Создание отчета',
-      hint: 'Здесь можно создать новый отчет.',
+      pageName: 'Создание плана закупок',
+      hint: 'Здесь можно создать новый план закупок.',
       requiresAuth: true
     },
-    component: () => import('../views/ReportCreate')
+    component: () => import('../views/PlansForm')
   },
   {
     path: '/categories',
@@ -114,8 +125,6 @@ router.beforeEach((to, from, next) => {
   // Проверяем авторизован ли пользователь.
   let LoggedIN = ((typeof localStorage.getItem('userToken') !== 'undefined' && localStorage.getItem('userToken') !== null) ||
       (typeof store.getters.getUser !== 'undefined' && store.getters.getUser !== null));
-
-  console.log(LoggedIN);
 
   if (LoggedIN) {
     // Если пользователь авторизован

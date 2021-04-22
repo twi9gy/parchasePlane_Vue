@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://purchase_plan.local:81/api/v1/category/";
+const API_URL = "http://purchase_plan.local:81/api/v1/categories/";
 
 export default {
     state: {
