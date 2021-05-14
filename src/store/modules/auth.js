@@ -70,8 +70,9 @@ export default {
             commit('clearPlans');
             // Удаляем jwt token
             localStorage.removeItem('userToken');
+            localStorage.removeItem('refreshToken');
         },
-        async refreshUser({ commit }) {
+        async refreshUser({ dispatch }) {
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             let data = JSON.stringify({
                 'refresh_token': JSON.parse(localStorage.getItem('refreshToken'))
@@ -87,10 +88,7 @@ export default {
                 localStorage.setItem('userToken', JSON.stringify(response.data.token));
                 localStorage.setItem('refreshToken', JSON.stringify(response.data.refresh_token));
             } )
-            .catch(error => {
-                commit('setMessage', error.response.data.message);
-                throw error
-            });
+            .catch(() => { dispatch('logout') });
         },
     }
 }

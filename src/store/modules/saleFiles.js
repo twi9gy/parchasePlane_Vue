@@ -22,7 +22,8 @@ export default {
                 filename: '',
                 edit: false,
                 new: true,
-                loaded: false
+                loaded: false,
+                separator: ','
             });
         },
         deleteSaleFile(state, index) {
@@ -35,7 +36,7 @@ export default {
         }
     },
     actions: {
-        async getAllSaleFiles({ commit }) {
+        async getAllSaleFiles({ dispatch, commit }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
@@ -49,12 +50,16 @@ export default {
                 })
                 .then(response => { commit('setSaleFiles', response.data.files) })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message)
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message);
+                        throw error;
+                    }
                 });
         },
         // Получить файлы по id категории
-        async getSaleFilesByCategoryId({ commit, getters }) {
+        async getSaleFilesByCategoryId({ dispatch, commit, getters }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
@@ -68,11 +73,15 @@ export default {
                 })
                 .then(response => { commit('setSaleFiles', response.data.files) })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message)
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message);
+                        throw error;
+                    }
                 });
         },
-        async addSaleFile({ commit }, { formData, file }) {
+        async addSaleFile({ dispatch, commit }, { formData, file }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Запрос к API
@@ -89,11 +98,15 @@ export default {
                     file.id = response.data.file_id;
                 })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message);
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message);
+                        throw error;
+                    }
                 });
         },
-        async editSaleFile({ commit }, { file_id, filename }) {
+        async editSaleFile({ dispatch, commit }, { file_id, filename }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Данные для создания новой категории
@@ -112,11 +125,15 @@ export default {
                 })
                 .then(response => { commit('setMessage', response.data.message) })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message);
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message);
+                        throw error;
+                    }
                 });
         },
-        async delSaleFile({ commit }, { file_id }) {
+        async delSaleFile({ dispatch, commit }, { file_id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Запрос к API
@@ -133,8 +150,12 @@ export default {
                     commit('setMessage', response.data.message);
                 })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message);
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message);
+                        throw error;
+                    }
                 });
         }
     },

@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import page_service from "./modules/page_service";
-import auth_service from "../store/modules/auth_service";
-import user_service from "../store/modules/user_service"
-import categories_service from "../store/modules/categories_service";
-import category_service from "../store/modules/category_service";
-import saleFiles_service from "./modules/saleFiles_service";
-import demandForecast_service from "./modules/demandForecast_service";
-import plans_service from "./modules/plans_service";
+import page from "./modules/page";
+import auth from "./modules/auth";
+import user from "./modules/user"
+import categories from "./modules/categories";
+import saleFiles from "./modules/saleFiles";
+import demandForecast from "./modules/demandForecasts";
+import plans from "./modules/plans";
+import loading from './modules/loading'
 
 Vue.use(Vuex);
 
@@ -34,13 +34,13 @@ export default new Vuex.Store({
         }
     },
     modules: {
-        page_service,
-        auth_service,
-        user_service,
-        categories_service,
-        category_service,
-        saleFiles_service,
-        demandForecast_service,
-        plans_service
+        page,
+        auth,
+        user,
+        categories,
+        saleFiles,
+        demandForecast,
+        plans,
+        loading
     }
 })

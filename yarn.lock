@@ -2645,6 +2645,13 @@ concat-stream@^1.5.0:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
+config@^3.3.3:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/config/-/config-3.3.6.tgz#b87799db7399cc34988f55379b5f43465b1b065c"
+  integrity sha512-Hj5916C5HFawjYJat1epbyY2PlAgLpBtDUlr0MxGLgo3p5+7kylyvnRY18PqJHgnNWXcdd0eWDemT7eYWuFgwg==
+  dependencies:
+    json5 "^2.1.1"
+
 connect-history-api-fallback@^1.6.0:
   version "1.6.0"
   resolved "https://registry.npm.taobao.org/connect-history-api-fallback/download/connect-history-api-fallback-1.6.0.tgz#8b32089359308d111115d81cad3fceab888f97bc"
@@ -5092,7 +5099,7 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-json5@^2.1.2:
+json5@^2.1.1, json5@^2.1.2:
   version "2.2.0"
   resolved "https://registry.npm.taobao.org/json5/download/json5-2.2.0.tgz#2dfefe720c6ba525d9ebd909950f0515316c89a3"
   integrity sha1-Lf7+cgxrpSXZ69kJlQ8FFTFsiaM=
@@ -5264,6 +5271,11 @@ lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.20.tgz?cache=0&sync_timestamp=1597336224062&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash%2Fdownload%2Flodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha1-tEqbYpe8tpjxxRo1RaKzs2jVnFI=
 
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
 log-symbols@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npm.taobao.org/log-symbols/download/log-symbols-2.2.0.tgz?cache=0&sync_timestamp=1587898980869&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flog-symbols%2Fdownload%2Flog-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
@@ -5345,6 +5357,11 @@ md5.js@^1.3.4:
     hash-base "^3.0.0"
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
+
+mdb-vue-ui-kit@^1.0.0-beta3:
+  version "1.0.0-beta3"
+  resolved "https://registry.yarnpkg.com/mdb-vue-ui-kit/-/mdb-vue-ui-kit-1.0.0-beta3.tgz#7d56dffe2a23b37a54352cb3d87e33cda9c3aa12"
+  integrity sha512-7Yzj2HvkBjTF7OXw8byA3V5iN+lQX5iOdsyHha4hUhGb4oDycdQoDHm0Ffdmd0r7WGtGKtOhx6vYjzWmxO8xDw==
 
 mdbvue@6.7.2:
   version "6.7.2"
@@ -8310,6 +8327,14 @@ vm-browserify@^1.0.1:
   resolved "https://registry.npm.taobao.org/vm-browserify/download/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha1-eGQcSIuObKkadfUR56OzKobl3aA=
 
+vue-ads-pagination@^2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/vue-ads-pagination/-/vue-ads-pagination-2.1.7.tgz#be1fb988966a7eed3e592c7b9295f112cc0f260f"
+  integrity sha512-uvWHvHjG3KhdiVeLm4v5DP4K3+MlczizSLCuILNHnWghvt6q6og3L7k8fGuyXFyqMOBftEdV90WU6wRcNCqwtA==
+  dependencies:
+    "@fortawesome/fontawesome-free" "^5.11.2"
+    vue "^2.6.10"
+
 vue-chartjs@^3.4.2:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-3.5.1.tgz#d25e845708f7744ae51bed9d23a975f5f8fc6529"
@@ -8377,6 +8402,11 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-lodash@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/vue-lodash/-/vue-lodash-2.1.2.tgz#1ec2b1471ee289518e8d285250a25516adee6c51"
+  integrity sha512-6QsNC7/XjrK4xKxFhh6Ppvcrfm0uAeR/lFsySsMgfEFUWkvRztcAIS3MsqAI4bBnAaLo9ou+8tUfJ8d+yrljQg==
+
 vue-numeric@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-numeric/-/vue-numeric-2.3.0.tgz#d6e5aa7c5035a86f2e36481fb1fd0fe2bc445f92"
@@ -8393,6 +8423,13 @@ vue-router@^3.1.3, vue-router@^3.2.0:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.1.tgz#edf3cf4907952d1e0583e079237220c5ff6eb6c9"
   integrity sha512-RRQNLT8Mzr8z7eL4p7BtKvRaTSGdCbTy2+Mm5HTJvLGYSSeG9gDzNasJPP/yOYKLy+/cLG/ftrqq5fvkFwBJEw==
+
+vue-sliding-pagination@^1.2.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/vue-sliding-pagination/-/vue-sliding-pagination-1.3.0.tgz#33b0a217d9233d55656c004e710639afd152f12b"
+  integrity sha512-NEptn5BVwqWlI9rJUInR35OsjTE2LOoQ4mtcQmVjoSMJoRafYAPAM1gcIwaBbRxG6v86Lx8zEJ/lQudL5a3wgg==
+  dependencies:
+    vue "^2.6"
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"
@@ -8424,10 +8461,15 @@ vue2-perfect-scrollbar@^1.2.1:
     perfect-scrollbar "^1.5.0"
     postcss-import "^12.0.0"
 
-vue@^2.6.11:
+vue@^2.6, vue@^2.6.10, vue@^2.6.11, vue@^2.6.12:
   version "2.6.12"
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.12.tgz?cache=0&sync_timestamp=1609359675074&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue%2Fdownload%2Fvue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha1-9evU+mvShpQD4pqJau1JBEVskSM=
+
+vuejs-paginate@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/vuejs-paginate/-/vuejs-paginate-2.1.0.tgz#93e1ad1539b713a688c7a2d3080bda60fcc6c77d"
+  integrity sha512-gnwyXlmCiDOu9MLWxN5UJ4PGijKGNOMpHG8ujsrynCzTJljn/rp7Jq0WiDGDAMi5/u0AHuYIHhced+tUW4jblA==
 
 vuelidate@^0.7.6:
   version "0.7.6"

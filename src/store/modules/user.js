@@ -28,7 +28,31 @@ export default {
                     commit('setUserInfo', response.data);
                 } )
                 .catch(() => {
-                    dispatch('refreshUser');
+                    dispatch('refreshUser')
+                });
+        },
+        async changePassword({ commit }, { new_password }) {
+            const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
+            let data = JSON.stringify({
+                'password': new_password
+            })
+            // Запрос к API
+            await axios.put(
+                API_URL + 'changePass',
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8',
+                        'Authorization' : token
+                    }
+                })
+                .then(response => {
+                    // Устанавливаем текущего пользователя в хранилище
+                    commit('setMessage', response.data.message);
+                } )
+                .catch(error => {
+                    commit('setMessage', error.response.data.message);
+                    throw error
                 });
         },
     },

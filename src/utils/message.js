@@ -4,7 +4,7 @@ export default {
 
         Vue.prototype.$message = function (vm, text) {
             vm.$bvToast.toast(text, {
-                title: 'Успех',
+                title: 'Успешная операция',
                 variant: 'success',
                 solid: true
             });

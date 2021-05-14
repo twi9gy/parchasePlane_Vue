@@ -4,7 +4,8 @@ const API_URL = "http://purchase_plan.local:81/api/v1/categories/";
 
 export default {
     state: {
-        categories: []
+        categories: [],
+        category: []
     },
     mutations: {
         setCategories(state, categories) {
@@ -14,7 +15,11 @@ export default {
             });
             state.categories = categories;
         },
-        clearCategories(state) { state.categories = [] },
+        setCategory(state, category) { state.category = category },
+        clearCategories(state) {
+            state.categories = [];
+            state.category = []
+        },
         createCategory(state) {
             state.categories.push({
                 id: Date.now() + ' new',
@@ -34,7 +39,7 @@ export default {
     },
     actions: {
         // Получить все категории
-        async getAllCategories({ commit }) {
+        async getAllCategories({ dispatch, commit }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
@@ -50,11 +55,37 @@ export default {
                     commit('setCategories', response.data.categories);
                 })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message)
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message)
+                        throw error;
+                    }
                 });
         },
-        async addCategory({ commit }, { name, category }) {
+        async getCategoryById({ dispatch, commit }, { id }) {
+            // Устанавливаем в заголовки Http токен JWT
+            const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
+            // Запрос к API
+            await axios.get(
+                API_URL + id,
+                {
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8',
+                        'Authorization' : token
+                    }
+                })
+                .then(response => { commit('setCategory', response.data) })
+                .catch(error => {
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message)
+                        throw error;
+                    }
+                });
+        },
+        async addCategory({ dispatch, commit }, { name, category }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Данные для создания новой категории
@@ -76,11 +107,15 @@ export default {
                     category.id = response.data.id;
                 })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message);
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message);
+                        throw error;
+                    }
                 });
         },
-        async editCategory({ commit }, { name, id }) {
+        async editCategory({ dispatch, commit }, { name, id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Данные для создания новой категории
@@ -99,11 +134,15 @@ export default {
                 })
                 .then(response => { commit('setMessage', response.data.message) })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message);
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message);
+                        throw error;
+                    }
                 });
         },
-        async delCategory({ commit }, { id }) {
+        async delCategory({ dispatch, commit }, { id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Запрос к API
@@ -120,14 +159,17 @@ export default {
                     commit('deleteCategory', id);
                 })
                 .catch(error => {
-                    commit('setMessage', error.response.data.message);
-                    throw error;
+                    if (error.response.data.code === 401) {
+                        dispatch('refreshUser')
+                    } else {
+                        commit('setMessage', error.response.data.message);
+                        throw error;
+                    }
                 });
         }
     },
     getters: {
-        allCategories(state) {
-            return state.categories;
-        }
+        allCategories(state) { return state.categories },
+        getCategory(state) { return state.category }
     }
 }

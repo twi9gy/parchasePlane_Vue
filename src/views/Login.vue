@@ -2,98 +2,104 @@
     <div style="height: 90vh">
         <div class="" style="height: 90vh">
             <div class="container flex-center">
-                <mdb-container>
-                    <mdb-row>
-                        <mdb-col>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+
                             <!-- Material form login -->
                             <form class="login" @submit.prevent="loginHandler">
                                 <template>
                                     <section class="form-gradient">
-                                        <mdb-row class="d-flex justify-content-center">
-                                            <mdb-col md="6">
+                                        <div content="row" class="d-flex justify-content-center">
+                                            <div class="col-md-7">
                                                 <mdb-card>
                                                     <div class="header pt-3 aqua-gradient">
-                                                        <mdb-row class="d-flex justify-content-center">
+                                                        <div class="row d-flex justify-content-center">
                                                             <h3 class="white-text mb-3 pt-3 font-weight-bold">Вход</h3>
-                                                        </mdb-row>
+                                                        </div>
                                                     </div>
                                                     <mdb-card-body class="mx-4 mt-4">
+                                                        <div v-if="!loading">
+                                                            <div class="md-form" :class="{'is-invalid':
+                                                              (this.$v.email.$dirty && !this.$v.email.required) ||
+                                                              (this.$v.email.$dirty && !this.$v.email.email)}">
+                                                                <input id="email_input" type="text" class=" form-control"
+                                                                       v-model.trim="email"
+                                                                       :class="{'is-invalid':
+                                                                  (this.$v.email.$dirty && !this.$v.email.required) ||
+                                                                  (this.$v.email.$dirty && !this.$v.email.email)}"/>
+                                                                <label ref="email_label" for="email_input" class="mr-5"
+                                                                       :class="{ active: email !== '' }">Email</label>
 
-                                                        <div class="md-form" :class="{'is-invalid':
-                                                            (this.$v.email.$dirty && !this.$v.email.required) ||
-                                                            (this.$v.email.$dirty && !this.$v.email.email)}">
-                                                            <input id="email_input" type="text" class=" form-control"
-                                                                @input="$refs.email_label.classList.add('active')"
-                                                                @focusout="onFocusOut"
-                                                                v-model.trim="email"
-                                                                :class="{'is-invalid':
-                                                                (this.$v.email.$dirty && !this.$v.email.required) ||
-                                                                (this.$v.email.$dirty && !this.$v.email.email)}"/>
-                                                            <label ref="email_label" for="email_input" class="mr-5">Email</label>
-
-                                                            <div class="invalid-feedback"
-                                                                 v-if="this.$v.email.$dirty && !this.$v.email.required">
-                                                                Поле Email не должно быть пустым.
-                                                            </div>
-
-                                                            <div class="invalid-feedback"
-                                                                 v-else-if="this.$v.email.$dirty && !this.$v.email.email">
-                                                                Введите корректный Email.
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="md-form" :class="{'is-invalid':
-                                                            (this.$v.password.$dirty && !this.$v.password.required) ||
-                                                            (this.$v.email.$dirty && !this.$v.email.email)}">
-
-                                                            <input id="password_input" type="password" class=" form-control"
-                                                                   @input="$refs.password_label.classList.add('active')"
-                                                                   @focusout="onFocusOut"
-                                                                   v-model.trim="password"
-                                                                   :class="{'is-invalid':
-                                                                   (this.$v.password.$dirty && !this.$v.password.required) ||
-                                                                   (this.$v.email.$dirty && !this.$v.password.minLength)}"/>
-
-                                                            <label ref="password_label" for="password_input"
-                                                                   class="mr-5">Пароль</label>
-
-                                                            <div class="invalid-feedback" v-if="
-                                                                (this.$v.password.$dirty && !this.$v.password.required)">
-                                                                Поле пароль не должно быть пустым.
-                                                            </div>
-                                                            <div class="invalid-feedback" v-if="
-                                                                (this.$v.password.$dirty && !this.$v.password.minLength)">
-                                                                Пароль должен быть
-                                                                {{ $v.password.$params.minLength.min }}
-                                                                символом. Сейчас он {{ password.length }}
-                                                            </div>
-                                                        </div>
-
-                                                        <mdb-row class="d-flex align-items-center mb-4">
-                                                            <mdb-col md="5" class="d-flex align-items-start">
-                                                                <div class="text-center">
-                                                                    <mdb-btn rounded type="submit">Вход</mdb-btn>
+                                                                <div class="invalid-feedback"
+                                                                     v-if="this.$v.email.$dirty && !this.$v.email.required">
+                                                                    Поле Email не должно быть пустым.
                                                                 </div>
-                                                            </mdb-col>
-                                                            <mdb-col md="7" class="d-flex justify-content-end">
-                                                                <p class="font-small grey-text mt-3">У вас нет аккаунта?
-                                                                    <router-link :to="{name: 'register'}"
-                                                                                 class="dark-grey-text ml-1 font-weight-bold"> Регистрация
-                                                                    </router-link>
-                                                                </p>
-                                                            </mdb-col>
-                                                        </mdb-row>
+
+                                                                <div class="invalid-feedback"
+                                                                     v-else-if="this.$v.email.$dirty && !this.$v.email.email">
+                                                                    Введите корректный Email.
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="md-form" :class="{'is-invalid':
+                                                              (this.$v.password.$dirty && !this.$v.password.required) ||
+                                                              (this.$v.password.$dirty && !this.$v.password.minLength)}">
+
+                                                                <input id="password_input" type="password" class=" form-control"
+                                                                       v-model.trim="password"
+                                                                       :class="{'is-invalid':
+                                                                     (this.$v.password.$dirty && !this.$v.password.required) ||
+                                                                     (this.$v.password.$dirty && !this.$v.password.minLength)}"/>
+
+                                                                <label ref="password_label" for="password_input"
+                                                                       class="mr-5"
+                                                                       :class="{ active: password !== '' }">Пароль</label>
+
+                                                                <div class="invalid-feedback" v-if="
+                                                                  (this.$v.password.$dirty && !this.$v.password.required)">
+                                                                    Поле пароль не должно быть пустым.
+                                                                </div>
+                                                                <div class="invalid-feedback" v-if="
+                                                                  (this.$v.password.$dirty && !this.$v.password.minLength)">
+                                                                    Пароль должен быть
+                                                                    {{ $v.password.$params.minLength.min }}
+                                                                    символом. Сейчас он {{ password.length }}
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row d-flex align-items-center mb-4">
+                                                                <div class="col-md-5 d-flex align-items-start">
+                                                                    <div class="text-center">
+                                                                        <mdb-btn rounded type="submit">Вход</mdb-btn>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-7 d-flex justify-content-end">
+                                                                    <p class="font-small grey-text mt-3">У вас нет аккаунта?
+                                                                        <router-link :to="{name: 'register'}"
+                                                                                     class="dark-grey-text ml-1 font-weight-bold"> Регистрация
+                                                                        </router-link>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div v-else>
+                                                            <Spinner />
+                                                        </div>
                                                     </mdb-card-body>
+
                                                 </mdb-card>
-                                            </mdb-col>
-                                        </mdb-row>
+                                            </div>
+                                        </div>
                                     </section>
                                 </template>
                             </form>
                             <!-- Material form login -->
-                        </mdb-col>
-                    </mdb-row>
-                </mdb-container>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -101,17 +107,16 @@
 
 <script>
     import { email, required, minLength } from 'vuelidate/lib/validators'
-    import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbBtn, mdbContainer } from 'mdbvue';
+    import { mdbCard, mdbCardBody, mdbBtn } from 'mdbvue';
+    import Spinner from "../components/Spinner";
 
     export default {
         name: "Login",
         components: {
-            mdbRow,
-            mdbCol,
             mdbCard,
             mdbBtn,
-            mdbContainer,
-            mdbCardBody
+            mdbCardBody,
+            Spinner
         },
         data() {
             return {
@@ -122,6 +127,14 @@
         validations: {
             email: { email, required },
             password: { required, minLength: minLength(8) }
+        },
+        computed: {
+            loading() {
+                return this.$store.getters.getLoading;
+            }
+        },
+        created() {
+            this.$store.commit('setLoading', false);
         },
         methods: {
             loginHandler: function () {
@@ -135,13 +148,17 @@
                     username: this.email,
                     password: this.password
                 };
+
+                this.$store.commit('setLoading', true);
+
                 // Вызываем метод авторизации
                 this.$store.dispatch('login', formData)
                     .then(() => {
-                          this.$router.push('/privateOffice')
-                              .then(this.$message(this, this.$store.getters.getMessage))
-                        })
+                        this.$store.commit('setLoading', false);
+                        this.$router.push({'name' : 'privateOffice'})
+                    })
                     .catch(() => {
+                        this.$store.commit('setLoading', false);
                         this.$error(this, this.$store.getters.getMessage);
                     });
             },
