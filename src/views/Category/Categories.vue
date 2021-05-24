@@ -2,9 +2,17 @@
     <div class="profile-catalog">
 
         <div v-if="!loading">
+
+            <div class="row justify-content-end" style="margin-top: -4vh">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <mdb-input type="text" placeholder="Поиск" aria-label="Search" v-model="searchValue"
+                               @input="searchItems"/>
+                </div>
+            </div>
+
             <div class="row">
 
-                <div id="categories" class="col-lg-4 col-md-8 col-sm-12 mt-2" v-for="category in items" :key="category.id">
+                <div id="categories" class="col-lg-4 col-md-6 col-sm-12 mt-2" v-for="category in items" :key="category.id">
                     <mdb-card>
                         <mdb-card-body color="elegant">
 
@@ -43,7 +51,7 @@
 
                             <div class="row">
                                 <div class="col d-flex">
-                                    <mdb-btn color="danger" @click="removeCategory(category)">Удалить</mdb-btn>
+                                    <mdb-btn color="danger" class="p-3" @click="removeCategory(category)">Удалить</mdb-btn>
 
                                     <router-link :to="{name: 'category', params: {id: category.id}}"
                                                 class="white-text mt-3 w-50 text-right">
@@ -61,30 +69,38 @@
             <hr />
 
             <div class="row mb-2">
-                <div class="col-lg-6" v-if="page === pageCount || pageCount === 0">
-                    <mdb-btn rounded type="submit" class="pl-5 pr-5" @click="addCategory">Добавить категорию</mdb-btn>
+
+                <div class="d-flex"
+                     :class="{
+                        'col-md-7 justify-content-left' : page <= pageCount,
+                        'col-md-12 justify-content-center' : pageCount === 1
+                        }"
+                     v-if="page === pageCount || pageCount === 1 || pageCount === 0">
+                        <mdb-btn rounded type="submit" size="lg" @click="addCategory">
+                            Добавить категорию
+                        </mdb-btn>
                 </div>
-                <div class="mt-3 mb-3 d-flex justify-content-center" v-if="pageCount > 1"
-                    :class="{
-                        'col-12' : page < pageCount,
-                        'col-6' : page === pageCount
-                    }">
+
+                <div class="col mt-2 d-flex justify-content-end" v-if="pageCount > 1"
+                     :class="{ 'col-md-5' : page === pageCount }">
                     <Paginate
-                        v-model="page"
-                        :page-count="pageCount"
-                        :click-handler="pageChangeHandler"
-                        :prev-text="'«'"
-                        :next-text="'»'"
-                        :container-class="'pagination pg-blue mb-0 mt-2'"
-                        :page-class="'page-item'"
-                        :pageLinkClass="'page-link waves-effect waves-effect'"
-                        :prevClass="'page-item'"
-                        :prevLinkClass="'page-link waves-effect waves-effect'"
-                        :nextClass="'page-item'"
-                        :nextLinkClass="'page-link waves-effect waves-effect'"
+                            v-model="page"
+                            :page-count="pageCount"
+                            :click-handler="pageChangeHandler"
+                            :prev-text="'«'"
+                            :next-text="'»'"
+                            :container-class="'pagination pg-blue mb-0 mt-2'"
+                            :page-class="'page-item'"
+                            :pageLinkClass="'page-link waves-effect waves-effect'"
+                            :prevClass="'page-item'"
+                            :prevLinkClass="'page-link waves-effect waves-effect'"
+                            :nextClass="'page-item'"
+                            :nextLinkClass="'page-link waves-effect waves-effect'"
                     />
                 </div>
+
             </div>
+
         </div>
 
         <div v-else>
@@ -97,7 +113,7 @@
 <script>
 import paginations from "../../utils/paginations";
 import { mdbBtn, mdbCard, mdbCardBody, mdbIcon, mdbInput } from 'mdbvue';
-import Spinner from '../../components/Spinner.vue';
+import Spinner from '../../components/LayoutComponents/Spinner.vue';
 
 export default {
     name: "ProfileCatalog",
@@ -109,6 +125,11 @@ export default {
         mdbIcon,
         mdbInput,
         Spinner
+    },
+    data() {
+        return {
+            searchValue: ''
+        }
     },
     created() {
         // Устанавливаем подсказку к странице
@@ -124,7 +145,11 @@ export default {
         }
     },
     async mounted() {
-        if (this.$store.getters.allCategories.length === 0) {
+        if (this.items.length > this.pageSize) {
+            this.setupPagination(this.$store.getters.allCategories);
+        }
+
+        if (this.items) {
             this.$store.commit('setLoading', true);
             
             await this.$store.dispatch('getAllCategories')
@@ -138,6 +163,11 @@ export default {
         this.setupPagination(this.$store.getters.allCategories);
     },
     methods: {
+        searchItems() {
+            this.setupPagination(
+                this.$store.getters.allCategories.filter(el => el.name.includes(this.searchValue))
+            );
+        },
         addCategory() {
             this.$store.commit('createCategory');
 

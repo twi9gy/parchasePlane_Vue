@@ -4,31 +4,31 @@
         <div v-if="!loading">
             <!--Форма для создания плана закупок-->
             <div class="row justify-content-center">
-                <div class="col-10">
+                <div class="col-lg-10 col-md-12 col-sm-12">
                     <mdb-jumbotron class="p-4 mb-0">
 
                         <!--Заголово формы-->
                         <div class="row mb-2">
                             <div class="col-12">
-                                <h4>Для формирования плана закупок заполните следущие данные: </h4>
+                                <h4 class="label">Для формирования плана закупок заполните следущие данные: </h4>
                             </div>
                         </div>
                         <!--./Заголово формы-->
 
-                        <!--Поле затраты на хранение продукции-->
                         <div class="row">
-                            <div class="col-10">
+                            <!--Поле затраты на хранение продукции-->
+                            <div class="col-lg-5 col-md-11">
 
                                 <div class="md-form mt-1" :class="{'is-invalid':
-                (this.$v.storage_costs.$dirty && !this.$v.storage_costs.required) ||
-                (this.$v.storage_costs.$dirty && !this.$v.storage_costs.minValue)
-              }">
+                                        (this.$v.storage_costs.$dirty && !this.$v.storage_costs.required) ||
+                                        (this.$v.storage_costs.$dirty && !this.$v.storage_costs.minValue)
+                                    }">
                                     <input id="storage_costs_input" type="text" class="form-control"
                                            v-model.trim="storage_costs"
                                            :class="{
-                             'is-invalid': (this.$v.storage_costs.$dirty && !this.$v.storage_costs.required) ||
-                                (this.$v.storage_costs.$dirty && !this.$v.storage_costs.minValue)
-                           }"/>
+                                                'is-invalid': (this.$v.storage_costs.$dirty && !this.$v.storage_costs.required) ||
+                                                (this.$v.storage_costs.$dirty && !this.$v.storage_costs.minValue)
+                                    }"/>
                                     <label ref="storage_costs_label" for="storage_costs_input" class="mr-5" :class="{ active: storage_costs !== '' }">
                                         Затраты на хранение единицы продукции
                                     </label>
@@ -46,26 +46,26 @@
                                 </div>
 
                             </div>
-                            <div class="col-2 mt-3">
+
+                            <div class="col-1 mt-3" v-if="width >= 576">
                                 <span class="span-measurement ml-auto mr-auto">₽</span>
                             </div>
-                        </div>
-                        <!--./Поле затраты на хранение продукции-->
+                            <!--./Поле затраты на хранение продукции-->
 
-                        <!--Поле Затраты на доставку продукции-->
-                        <div class="row">
-                            <div class="col-10">
+                            <!--Поле Затраты на доставку продукции-->
+
+                            <div class="col-lg-5 col-md-11">
 
                                 <div class="md-form mt-1" :class="{'is-invalid':
-                (this.$v.shipping_costs.$dirty && !this.$v.shipping_costs.required) ||
-                (this.$v.shipping_costs.$dirty && !this.$v.shipping_costs.minValue)
-              }">
+                                    (this.$v.shipping_costs.$dirty && !this.$v.shipping_costs.required) ||
+                                    (this.$v.shipping_costs.$dirty && !this.$v.shipping_costs.minValue)
+                                }">
                                     <input id="shipping_costs_input" type="text" class="form-control"
                                            v-model.trim="shipping_costs"
                                            :class="{
-                             'is-invalid': (this.$v.shipping_costs.$dirty && !this.$v.shipping_costs.required) ||
-                                (this.$v.shipping_costs.$dirty && !this.$v.shipping_costs.minValue)
-                           }"/>
+                                                'is-invalid': (this.$v.shipping_costs.$dirty && !this.$v.shipping_costs.required) ||
+                                                (this.$v.shipping_costs.$dirty && !this.$v.shipping_costs.minValue)
+                                            }"/>
                                     <label ref="shipping_costs_label" for="shipping_costs_input" class="mr-5" :class="{ active: shipping_costs !== '' }">
                                         Затраты на доставку продукции
                                     </label>
@@ -83,26 +83,27 @@
                                 </div>
 
                             </div>
-                            <div class="col-2 mt-3">
+
+                            <div class="col-1 mt-3" v-if="width >= 576">
                                 <span class="span-measurement ml-auto mr-auto">₽</span>
                             </div>
+                            <!--./Поле Затраты на доставку продукции-->
                         </div>
-                        <!--./Поле Затраты на доставку продукции-->
 
-                        <!--Поле Уровень обслуживания-->
                         <div class="row">
-                            <div class="col-10">
+                            <!--Поле Уровень обслуживания-->
+                            <div class="col-lg-5 col-md-11">
 
                                 <div class="md-form mt-1" :class="{'is-invalid':
-                (this.$v.service_level.$dirty && !this.$v.service_level.required) ||
-                (this.$v.service_level.$dirty && !this.$v.service_level.minValue)
-              }">
+                                    (this.$v.service_level.$dirty && !this.$v.service_level.required) ||
+                                    (this.$v.service_level.$dirty && !this.$v.service_level.minValue)
+                                }">
                                     <input id="service_level_input" type="text" class="form-control"
                                            v-model.trim="service_level"
                                            :class="{
-                             'is-invalid': (this.$v.service_level.$dirty && !this.$v.service_level.required) ||
-                                (this.$v.service_level.$dirty && !this.$v.service_level.minValue)
-                           }"/>
+                                                'is-invalid': (this.$v.service_level.$dirty && !this.$v.service_level.required) ||
+                                                (this.$v.service_level.$dirty && !this.$v.service_level.minValue)
+                                            }"/>
                                     <label ref="service_level_label" for="service_level_input" class="mr-5" :class="{ active: service_level !== '' }">
                                         Уровень обслуживания
                                     </label>
@@ -120,26 +121,25 @@
                                 </div>
 
                             </div>
-                            <div class="col-2 mt-3">
+
+                            <div class="col-1 mt-3" v-if="width >= 576">
                                 <span class="span-measurement ml-auto mr-auto">%</span>
                             </div>
-                        </div>
-                        <!--./Поле Уровень обслуживания-->
+                            <!--./Поле Уровень обслуживания-->
 
-                        <!--Поле Уровень обслуживания-->
-                        <div class="row">
-                            <div class="col-10">
+                            <!--Поле Уровень обслуживания-->
+                            <div class="col-lg-5 col-md-11">
 
                                 <div class="md-form mt-1" :class="{'is-invalid':
-                (this.$v.product_price.$dirty && !this.$v.product_price.required) ||
-                (this.$v.product_price.$dirty && !this.$v.product_price.minValue)
-              }">
+                                    (this.$v.product_price.$dirty && !this.$v.product_price.required) ||
+                                    (this.$v.product_price.$dirty && !this.$v.product_price.minValue)
+                                }">
                                     <input id="product_price_input" type="text" class="form-control"
                                            v-model.trim="product_price"
                                            :class="{
-                             'is-invalid': (this.$v.product_price.$dirty && !this.$v.product_price.required) ||
-                                (this.$v.product_price.$dirty && !this.$v.product_price.minValue)
-                           }"/>
+                                                'is-invalid': (this.$v.product_price.$dirty && !this.$v.product_price.required) ||
+                                                (this.$v.product_price.$dirty && !this.$v.product_price.minValue)
+                                            }"/>
                                     <label ref="product_price_label" for="product_price_input" class="mr-5" :class="{ active: product_price !== '' }">
                                         Стоимость единицы продукции
                                     </label>
@@ -157,26 +157,27 @@
                                 </div>
 
                             </div>
-                            <div class="col-2 mt-3">
+
+                            <div class="col-1 mt-3" v-if="width >= 576">
                                 <span class="span-measurement ml-auto mr-auto">₽</span>
                             </div>
+                            <!--./Поле Уровень обслуживания-->
                         </div>
-                        <!--./Поле Уровень обслуживания-->
 
-                        <!--Поле Время доставки продукции-->
                         <div class="row">
-                            <div class="col-10">
+                            <!--Поле Время доставки продукции-->
+                            <div class="col-lg-5 col-md-10">
 
                                 <div class="md-form mt-1" :class="{'is-invalid':
-                (this.$v.time_shipping.$dirty && !this.$v.time_shipping.required) ||
-                (this.$v.time_shipping.$dirty && !this.$v.time_shipping.minValue)
-              }">
+                                    (this.$v.time_shipping.$dirty && !this.$v.time_shipping.required) ||
+                                    (this.$v.time_shipping.$dirty && !this.$v.time_shipping.minValue)
+                                }">
                                     <input id="time_shipping_input" type="text" class="form-control"
                                            v-model.trim="time_shipping"
                                            :class="{
-                             'is-invalid': (this.$v.time_shipping.$dirty && !this.$v.time_shipping.required) ||
-                                (this.$v.time_shipping.$dirty && !this.$v.time_shipping.minValue)
-                           }"/>
+                                                'is-invalid': (this.$v.time_shipping.$dirty && !this.$v.time_shipping.required) ||
+                                                (this.$v.time_shipping.$dirty && !this.$v.time_shipping.minValue)
+                                            }"/>
                                     <label ref="time_shipping_label" for="time_shipping_input" class="mr-5" :class="{ active: time_shipping !== '' }">
                                         Время доставки продукции
                                     </label>
@@ -194,24 +195,22 @@
                                 </div>
 
                             </div>
-                            <div class="col-2 mt-3">
-                                <span class="span-measurement ml-auto mr-auto">Дней</span>
+
+                            <div class="col-lg-1 col-md-2 mt-3" v-if="width >= 576">
+                                <span class="span-measurement ml-auto mr-auto" style="font-size: .9em">Дней</span>
                             </div>
-                        </div>
-                        <!--./Поле Время доставки продукции-->
+                            <!--./Поле Время доставки продукции-->
 
-                        <!--Поле Возможная задержка поставок-->
-                        <div class="row">
-                            <div class="col-10">
-
+                            <!--Поле Возможная задержка поставок-->
+                            <div class="col-lg-5 col-md-10">
                                 <div class="md-form mt-1" :class="{'is-invalid':
-                (this.$v.delayed_deliveries.$dirty && !this.$v.delayed_deliveries.minValue)
-              }">
+                                    (this.$v.delayed_deliveries.$dirty && !this.$v.delayed_deliveries.minValue)
+                                }">
                                     <input id="delayed_deliveries_input" type="text" class="form-control"
                                            v-model.trim="delayed_deliveries"
                                            :class="{
-                             'is-invalid': (this.$v.delayed_deliveries.$dirty && !this.$v.delayed_deliveries.minValue)
-                           }"/>
+                                                'is-invalid': (this.$v.delayed_deliveries.$dirty && !this.$v.delayed_deliveries.minValue)
+                                           }"/>
                                     <label ref="delayed_deliveries_label" for="delayed_deliveries_input" class="mr-5" :class="{ active: delayed_deliveries !== '' }">
                                         Возможная задержка поставок
                                     </label>
@@ -224,11 +223,12 @@
                                 </div>
 
                             </div>
-                            <div class="col-2 mt-3">
-                                <span class="span-measurement ml-auto mr-auto">Дней</span>
+
+                            <div class="col-lg-1 col-md-2 mt-3" v-if="width >= 576">
+                                <span class="span-measurement ml-auto mr-auto" style="font-size: .9em">Дней</span>
                             </div>
+                            <!--./Поле Возможная задержка поставок-->
                         </div>
-                        <!--./Поле Возможная задержка поставок-->
 
                         <!--Поле для выбора отчета о прогнозируемом спросе-->
                         <div class="row">
@@ -236,7 +236,7 @@
 
                                 <div class="row">
                                     <div class="col-12">
-                                        <h4>Выберите отчет о прогнозировании спроса:</h4>
+                                        <h4 class="label">Выберите отчет о прогнозировании спроса:</h4>
                                     </div>
                                 </div>
 
@@ -244,12 +244,12 @@
                                     <div class="col-12">
 
                                         <div class="md-form mt-1" :class="{'is-invalid':
-                            (this.$v.forecastFile.$dirty && !this.$v.forecastFile.required) }">
+                                                (this.$v.forecastFile.$dirty && !this.$v.forecastFile.required) }">
                                             <input id="item_input" type="text" class="form-control" list="objects_select"
                                                    v-model.trim="forecastFile"
                                                    :class="{
-                             'is-invalid': (this.$v.forecastFile.$dirty && !this.$v.forecastFile.required)
-                           }"/>
+                                                        'is-invalid': (this.$v.forecastFile.$dirty && !this.$v.forecastFile.required)
+                                                   }"/>
                                             <label ref="item_label" for="item_input" class="mr-5" :class="{ active: forecastFile !== '' }">
                                                 Название отчета о прогнозировании спроса
                                             </label>
@@ -280,7 +280,7 @@
 
             <!--Поле для записи названия плана закупок-->
             <div class="row justify-content-center">
-                <div class="col-10">
+                <div class="col-lg-10 col-md-12">
                     <div class="md-form" :class="{'is-invalid':
                             (this.$v.filename.$dirty && !this.$v.filename.required) ||
                             (this.$v.filename.$dirty && !this.$v.filename.minLength)}">
@@ -328,7 +328,7 @@
 <script>
     import { mdbJumbotron, mdbBtn } from 'mdbvue';
     import {minLength, minValue, required} from "vuelidate/lib/validators";
-    import Spinner from "../../components/Spinner";
+    import Spinner from "../../components/LayoutComponents/Spinner";
 
     export default {
         name: "PlansForm",
@@ -377,6 +377,9 @@
             },
             loading() {
                 return this.$store.getters.getLoading;
+            },
+            width() {
+                return this.$store.getters.getWidth;
             }
         },
         methods: {
@@ -422,5 +425,10 @@
     }
     .is-invalid input {
         border-color: #dc3545;
+    }
+    @media (max-width: 768px) {
+        .label {
+            font-size: calc(0.5rem + 1.5vw);
+        }
     }
 </style>

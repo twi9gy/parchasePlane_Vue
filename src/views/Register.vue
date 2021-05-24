@@ -154,7 +154,7 @@
 <script>
     import { mdbCard, mdbCardBody, mdbBtn } from 'mdbvue';
     import {email, minLength, required, sameAs } from "vuelidate/lib/validators";
-    import Spinner from "../components/Spinner";
+    import Spinner from "../components/LayoutComponents/Spinner";
 
 
     export default {

@@ -5,7 +5,7 @@
 
             <div class="row h-50">
                 <div class="col-12">
-                    <mdb-card-text>{{ text }}</mdb-card-text>
+                    <mdb-card-text class="text-justify">{{ text }}</mdb-card-text>
                 </div>
             </div>
 

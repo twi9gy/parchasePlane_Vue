@@ -3,12 +3,13 @@
 
         <div v-if="!loading">
             <div class="row justify-content-center">
-                <div class="col-10">
+                <div class="col-lg-10 col-md-12 col-sm-12"
+                     :class="{ 'p-0': width < 576 }">
                     <mdb-jumbotron class="p-4 mb-0">
 
                         <div class="row">
                             <div class="col-12">
-                                <h4>Выберите метод анализа временных рядов: </h4>
+                                <h4 class="label">Выберите метод анализа временных рядов: </h4>
                             </div>
                         </div>
 
@@ -21,31 +22,40 @@
 
                         <div class="row mt-3">
                             <div class="col-12">
-                                <h4>Выберите по каким объектам производить анализ:</h4>
+                                <h4 class="label">Выберите по каким объектам производить анализ:</h4>
                             </div>
                         </div>
 
                         <div class="row mt-2">
                             <div class="col-12">
-                                <mdb-list-group horizontal>
+                                <div class="container-fluid p-0">
+<!--                                    <mdb-list-group horizontal>-->
 
-                                    <mdb-list-group-item class="w-50">
-                                        <div class="custom-control custom-radio ml-auto mr-auto">
-                                            <input type="radio" class="custom-control-input" id="radioFile"
-                                                   name="forecast" value="file" v-model="objectAnalysis" checked>
-                                            <label class="custom-control-label" for="radioFile">По файлу</label>
+                                        <div class="row list-group flex-row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12"
+                                                :class="{ 'pr-0': width >= 576 }">
+                                                <mdb-list-group-item class="w-100">
+                                                    <div class="custom-control custom-radio ml-auto mr-auto">
+                                                        <input type="radio" class="custom-control-input" id="radioFile"
+                                                               name="forecast" value="file" v-model="objectAnalysis" checked>
+                                                        <label class="custom-control-label" for="radioFile">По файлу</label>
+                                                    </div>
+                                                </mdb-list-group-item>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12"
+                                                 :class="{ 'pl-0': width >= 576 }">
+                                                <mdb-list-group-item class="w-100">
+                                                    <div class="custom-control custom-radio ml-auto mr-auto">
+                                                        <input type="radio" class="custom-control-input" id="radioCategory"
+                                                               name="forecast" value="category" v-model="objectAnalysis">
+                                                        <label class="custom-control-label" for="radioCategory">По категории</label>
+                                                    </div>
+                                                </mdb-list-group-item>
+                                            </div>
                                         </div>
-                                    </mdb-list-group-item>
 
-                                    <mdb-list-group-item class="w-50">
-                                        <div class="custom-control custom-radio ml-auto mr-auto">
-                                            <input type="radio" class="custom-control-input" id="radioCategory"
-                                                   name="forecast" value="category" v-model="objectAnalysis">
-                                            <label class="custom-control-label" for="radioCategory">По категории</label>
-                                        </div>
-                                    </mdb-list-group-item>
-
-                                </mdb-list-group>
+<!--                                    </mdb-list-group>-->
+                                </div>
                             </div>
                         </div>
 
@@ -54,7 +64,7 @@
 
                                 <div class="row">
                                     <div class="col-12">
-                                        <h4>{{ selectName }} для прогнозирования спроса:</h4>
+                                        <h4 class="label">{{ selectName }} для прогнозирования спроса:</h4>
                                     </div>
                                 </div>
 
@@ -92,11 +102,11 @@
 
                         <div class="row mt-2">
 
-                            <div class="col-5 mt-2">
-                                <h5 class="text-left">Период прогнозирования:</h5>
+                            <div class="col-lg-5 col-md-6 mt-3" v-if="width >= 576">
+                                <h5 class="text-left label">Период прогнозирования:</h5>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-lg-4 col-md-3 col-sm-6">
                                 <div class="md-form m-1" :class="{'is-invalid': (this.$v.period.$dirty && !this.$v.period.minValue) }">
                                     <input id="period_input" type="number" class="form-control"
                                            v-model.trim="period"
@@ -112,7 +122,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-3 mt-1">
+                            <div class="col-lg-3 col-md-3 col-sm-6 mt-1">
                                 <b-form-select v-model="interval" :options="interval_options"></b-form-select>
                             </div>
 
@@ -120,24 +130,24 @@
 
                         <div class="row mt-2">
 
-                            <div class="col-5 mt-4">
-                                <h5 class="text-left">Столбец файла для анализа:</h5>
+                            <div class="col-lg-5 col-md-6 mt-4">
+                                <h5 class="text-left label">Столбец файла для анализа:</h5>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-lg-4 col-md-6">
                                 <mdb-input label="Название столбца" v-model="column" />
                             </div>
 
                         </div>
 
                         <div class="row mt-2 justify-content-start" v-if="method === 2">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <div class="row">
-                                    <div class="col-6 mt-3">
-                                        <p>Периодичность данных: </p>
+                                    <div class="col-lg-5 col-md-6 mt-3">
+                                        <h5 class="text-left label">Периодичность данных: </h5>
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-lg-4 col-md-6 mt-2">
                                         <b-form-select v-model="seasonal" :options="seasonal_options"></b-form-select>
                                     </div>
                                 </div>
@@ -149,7 +159,7 @@
             </div>
 
             <div class="row justify-content-center">
-                <div class="col-10">
+                <div class="col-lg-10 col-md-12">
                     <div class="md-form" :class="{'is-invalid':
                             (this.$v.filename.$dirty && !this.$v.filename.required) ||
                             (this.$v.filename.$dirty && !this.$v.filename.minLength)}">
@@ -191,9 +201,9 @@
 </template>
 
 <script>
-    import { mdbBtn, mdbJumbotron, mdbInput, mdbListGroup, mdbListGroupItem } from 'mdbvue';
+    import { mdbBtn, mdbJumbotron, mdbInput, mdbListGroupItem } from 'mdbvue';
     import { minLength, required, minValue } from "vuelidate/lib/validators";
-    import Spinner from "../../components/Spinner";
+    import Spinner from "../../components/LayoutComponents/Spinner";
 
     export default {
         name: "DemandForecastCreate",
@@ -214,7 +224,7 @@
                 interval_options:[
                     { value: '1D', text: 'Дней' },
                     { value: '7D', text: 'Недель'},
-                    { value: 'M', text: 'Месяцев'},
+                    { value: '1M', text: 'Месяцев'},
                 ],
                 seasonal_options: [
                     { value: 12, text: 'Год' },
@@ -235,7 +245,6 @@
             mdbBtn,
             mdbJumbotron,
             mdbInput,
-            mdbListGroup,
             mdbListGroupItem
         },
         created() {
@@ -284,6 +293,9 @@
             },
             loading() {
                 return this.$store.getters.getLoading;
+            },
+            width() {
+                return this.$store.getters.getWidth;
             }
         },
         methods: {
@@ -352,5 +364,10 @@
     }
     .is-invalid input {
         border-color: #dc3545;
+    }
+    @media (max-width: 768px) {
+        .label {
+            font-size: calc(0.5rem + 1.5vw);
+        }
     }
 </style>

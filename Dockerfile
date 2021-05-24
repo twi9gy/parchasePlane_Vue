@@ -1,21 +1,27 @@
-FROM node:lts-alpine
+# stage1 as builder
+FROM node:10-alpine as builder
 
-# устанавливаем простой HTTP-сервер для статики
-RUN npm install -g http-server
+WORKDIR /vue-ui
 
-# делаем каталог 'app' текущим рабочим каталогом
-WORKDIR /app
-
-# копируем оба 'package.json' и 'package-lock.json' (если есть)
+# Copy the package.json and install dependencies
 COPY package*.json ./
-
-# устанавливаем зависимости проекта
 RUN npm install
 
-# копируем файлы и каталоги проекта в текущий рабочий каталог (т.е. в каталог 'app')
+# Copy rest of the files
 COPY . .
 
+# Build the project
 RUN npm run build
 
-EXPOSE 8080
-CMD [ "http-server", "dist" ]
+
+FROM nginx:alpine as production-build
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy from the stahg 1
+COPY --from=builder /vue-ui/dist /usr/share/nginx/html
+
+EXPOSE 80
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

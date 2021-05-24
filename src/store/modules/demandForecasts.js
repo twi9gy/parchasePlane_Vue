@@ -8,7 +8,13 @@ export default {
         demandForecast: []
     },
     mutations: {
-        setDemandForecastFiles(state, files) { state.files = files },
+        setDemandForecastFiles(state, files) {
+            files.forEach((item) => {
+                item.accuracy = String(Math.floor(item.accuracy * 100)) + ' %';
+                item.rmse = Math.floor(item.rmse * 100) / 100;
+            });
+            state.files = files
+        },
         clearDemandForecastFiles(state) {
             state.files = null;
             state.demandForecast = null

@@ -3,7 +3,7 @@
 
         <div v-if="!loading">
 
-            <div class="row mb-2">
+            <div class="row mb-2" v-if="width >= 576">
                 <div class="col">
                     <h4 class="text-center">
                         Спрос на продукцию в период {{ this.demandForecast.start_period_analysis }} - {{ this.demandForecast.end_period_analysis }}:
@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-12">
 
-                    <div class="row">
+                    <div class="row" v-if="width >= 576">
                         <div class="col-12">
                             <div class="container" ref="container_chart_1">
                                 <chart
@@ -29,9 +29,16 @@
                         </div>
                     </div>
 
+                    <div class="row mt-3">
+                        <div class="col">
+                            <h5 class="text-center">
+                                Таблица потребления продукции в период {{ this.demandForecast.start_period_analysis }} - {{ this.demandForecast.end_period_analysis }}:
+                            </h5>
+                        </div>
+                    </div>
 
                     <div class="row justify-content-center">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-12">
                             <ReportTable
                                     :records="demandForecast.origin_data"
                                     :column="this.demandForecast.column"/>
@@ -41,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="row mt-4 mb-2">
+            <div class="row mt-4 mb-2" v-if="width >= 576">
                 <div class="col">
                     <h4 class="text-center">
                         Прогнозируемый спрос на период {{ this.demandForecast.start_period_forecast }} - {{ this.demandForecast.end_period_forecast }}:
@@ -52,7 +59,7 @@
             <div class="row">
                 <div class="col-12">
 
-                    <div class="row">
+                    <div class="row" v-if="width >= 576">
                         <div class="col-12">
                             <div class="container" ref="container_chart_2">
                                 <chart
@@ -67,8 +74,16 @@
                         </div>
                     </div>
 
+                    <div class="row mt-4 mb-2">
+                        <div class="col">
+                            <h4 class="text-center">
+                                Таблица прогнозируемого спрос на период {{ this.demandForecast.start_period_forecast }} - {{ this.demandForecast.end_period_forecast }}:
+                            </h4>
+                        </div>
+                    </div>
+
                     <div class="row justify-content-center">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-12">
                             <ReportTable
                                     :records="demandForecast.prediction"
                                     :column="demandForecast.column"/>
@@ -80,10 +95,47 @@
 
             <div class="row mt-3">
                 <div class="col">
-                    <accordion
-                            :rmse="demandForecast.accuracy"
-                            :method="demandForecast.method"
-                            :accuracy="demandForecast.percentage_accuracy"/>
+
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="text-center">
+                                Параметры полученного отчета о прогнозировании спроса:
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <accordion
+                                    :rmse="demandForecast.accuracy"
+                                    :method="demandForecast.method"
+                                    :accuracy="demandForecast.percentage_accuracy"
+                                    :class="'text-justify'"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4 mb-3">
+                <div class="col">
+
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="text-center">
+                                Файлы связанные с отчетом о прогнозировании спроса:
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <list-associate-files
+                                :sales_file="demandForecast.sales_file"
+                                :category="demandForecast.category"
+                                :plans="demandForecast.purchase_plans"/>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -96,14 +148,16 @@
 </template>
 
 <script>
-    import Accordion from '../../components/AccordionDemand.vue';
-    import Chart from '../../components/Chart.vue';
-    import ReportTable from "../../components/ReportTable";
-    import Spinner from '../../components/Spinner.vue';
+    import Accordion from '../../components/ReportComponents/AccordionDemand.vue';
+    import Chart from '../../components/ReportComponents/Chart.vue';
+    import ReportTable from "../../components/ReportComponents/ReportTable";
+    import Spinner from '../../components/LayoutComponents/Spinner.vue';
+    import ListAssociateFiles from "../../components/ReportComponents/ListAssociateFiles";
 
     export default {
         name: "DemandForecastShow",
         components: {
+            ListAssociateFiles,
             ReportTable,
             Spinner,
             Chart,
@@ -128,6 +182,9 @@
             },
             loading() {
                 return this.$store.getters.getLoading;
+            },
+            width() {
+                return this.$store.getters.getWidth;
             }
         },
         async mounted() {

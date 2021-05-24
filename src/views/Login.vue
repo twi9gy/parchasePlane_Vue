@@ -108,7 +108,7 @@
 <script>
     import { email, required, minLength } from 'vuelidate/lib/validators'
     import { mdbCard, mdbCardBody, mdbBtn } from 'mdbvue';
-    import Spinner from "../components/Spinner";
+    import Spinner from "../components/LayoutComponents/Spinner";
 
     export default {
         name: "Login",

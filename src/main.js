@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import { BootstrapVue } from 'bootstrap-vue'
 import message from "./utils/message";
+import dateFilter from './filters/date.filters';
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
@@ -19,6 +20,8 @@ Vue.component('Paginate', Paginate)
 Vue.use(BootstrapVue);
 Vue.use(vuelidate);
 Vue.use(message);
+
+Vue.filter('date', dateFilter);
 
 new Vue({
   router,

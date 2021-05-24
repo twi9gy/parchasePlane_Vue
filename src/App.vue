@@ -17,9 +17,9 @@
 
         <!--BACKGROUND-->
         <div class="fixed-top" style="z-index: -10">
-            <mdb-view>
+            <div class="view view_main">
                 <mdb-mask class="gradient"></mdb-mask>
-            </mdb-view>
+            </div>
         </div>
         <!--/.BACKGROUND-->
 
@@ -37,9 +37,9 @@
 <script>
     import MainLayout from "./layout/MainLayout";
     import PrivateLayout from "./layout/PrivateLayout";
-    import NavBar from "./components/NavBar";
-    import Footer from "./components/Footer";
-    import { mdbView, mdbMask } from 'mdbvue';
+    import NavBar from "./components/LayoutComponents/NavBar";
+    import Footer from "./components/LayoutComponents/Footer";
+    import { mdbMask } from 'mdbvue';
 
     export default {
         computed : {
@@ -52,8 +52,20 @@
             PrivateLayout,
             NavBar,
             Footer,
-            mdbView,
             mdbMask
+        },
+        created() {
+            window.addEventListener('resize', this.handleResize);
+            this.handleResize();
+        },
+        destroyed() {
+            window.removeEventListener('resize', this.handleResize);
+        },
+        methods: {
+            handleResize() {
+                this.$store.commit('setWidth', window.innerWidth);
+                this.$store.commit('setHeight', window.innerHeight);
+            }
         }
     }
 </script>
@@ -81,8 +93,9 @@
     #nav a.router-link-exact-active {
         color: #42b983;
     }
-    .view {
-        background-image: url('https://mdbootstrap.com/img/Photos/Others/architecture.jpg');
+    .view_main {
+        /*background-image: url('https://mdbootstrap.com/img/Photos/Others/architecture.jpg');*/
+        background-image: url('https://apbox.es/wp-content/uploads/2020/09/Untitled-design-5.png');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center center;

@@ -9,6 +9,7 @@ import saleFiles from "./modules/saleFiles";
 import demandForecast from "./modules/demandForecasts";
 import plans from "./modules/plans";
 import loading from './modules/loading'
+import window from "./modules/window";
 
 Vue.use(Vuex);
 
@@ -41,6 +42,7 @@ export default new Vuex.Store({
         saleFiles,
         demandForecast,
         plans,
-        loading
+        loading,
+        window
     }
 })

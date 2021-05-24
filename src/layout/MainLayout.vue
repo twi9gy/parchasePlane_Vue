@@ -2,7 +2,7 @@
     <div class="main-layout">
         <!-- CONTENT -->
         <main>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <article class="col-12">
                         <router-view />

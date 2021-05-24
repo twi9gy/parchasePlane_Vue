@@ -7,7 +7,18 @@
 
         <div v-else>
 
-            <div class="row mb-2">
+            <div class="row justify-content-center">
+                <div class="col-6 mt-2">
+                    <h5>Отчет о прогнозировании спроса: </h5>
+                </div>
+                <div class="col-6">
+                    <router-link :to="{name: 'demandForecastShow', params: { 'id' : plan.demand_forecast_id }}">
+                        <mdb-btn class="w-100 btn-sm m-0" color="primary"> {{ plan.demand_forecast_filename }}</mdb-btn>
+                    </router-link>
+                </div>
+            </div>
+
+            <div class="row mt-3 mb-2" v-if="width >= 576">
                 <div class="col">
                     <h4 class="text-center">
                         Спрос на продукцию в период {{ this.plan.start_date }} - {{ this.plan.end_date }}:
@@ -18,7 +29,7 @@
             <div class="row">
                 <div class="col-12">
 
-                    <div class="row">
+                    <div class="row" v-if="width >= 576">
                         <div class="col-12">
                             <div class="container" ref="container_chart_1">
                                 <chart
@@ -42,7 +53,7 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-12">
                             <ReportTable
                                     :records="plan.demand"
                                     :column="'Count'"/>
@@ -52,7 +63,7 @@
                 </div>
             </div>
 
-            <div class="row mt-4 mb-2">
+            <div class="row mt-4 mb-2" v-if="width >= 576">
                 <div class="col">
                     <h4 class="text-center">
                         Закупки на период {{ this.plan.start_date }} - {{ this.plan.end_date }}:
@@ -63,7 +74,7 @@
             <div class="row">
                 <div class="col-12">
 
-                    <div class="row">
+                    <div class="row" v-if="width >= 576">
                         <div class="col-12">
                             <div class="container" ref="container_chart_2">
                                 <plan-chart
@@ -82,7 +93,7 @@
                     </div>
 
                     <div class="row justify-content-center mt-4">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-12 mb-3">
 
                             <div class="row">
                                 <div class="col">
@@ -103,7 +114,7 @@
 
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-12 mb-3">
 
                             <div class="row">
                                 <div class="col">
@@ -126,14 +137,29 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row mt-3 mb-3">
                 <div class="col">
-                    <accordion-plan
-                            :freq_delivery="plan.freq_delivery"
-                            :size_order="plan.size_order"
-                            :point_order="plan.point_order"
-                            :reserve="plan.reserve"
-                            :total_costs="plan.total_costs"/>
+
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="text-center">
+                                Параметры полученного плана закупок:
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <accordion-plan
+                                    :freq_delivery="plan.freq_delivery"
+                                    :size_order="plan.size_order"
+                                    :point_order="plan.point_order"
+                                    :reserve="plan.reserve"
+                                    :total_costs="plan.total_costs"
+                                    :class="'text-justify'"/>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -143,13 +169,15 @@
 </template>
 
 <script>
-    import Spinner from '../../components/Spinner.vue';
-    import Chart from '../../components/Chart.vue';
-    import ReportTable from "../../components/ReportTable";
-    import AccordionPlan from '../../components/AccordionPlan.vue';
-    import PlanChart from '../../components/PlanChart.vue';
+    import Spinner from '../../components/LayoutComponents/Spinner.vue';
+    import Chart from '../../components/ReportComponents/Chart.vue';
+    import ReportTable from "../../components/ReportComponents/ReportTable";
+    import AccordionPlan from '../../components/ReportComponents/AccordionPlan.vue';
+    import PlanChart from '../../components/ReportComponents/PlanChart.vue';
     import _ from 'lodash';
-    import OrdersTable from '../../components/OrdersTable.vue';
+    import OrdersTable from '../../components/ReportComponents/OrdersTable.vue';
+
+    import { mdbBtn } from 'mdbvue';
 
     export default {
         name: "PlanShow",
@@ -159,7 +187,8 @@
             Chart,
             AccordionPlan,
             PlanChart,
-            OrdersTable
+            OrdersTable,
+            mdbBtn
         },
         data() {
             return {
@@ -209,6 +238,9 @@
                 }
 
                 return res;
+            },
+            width() {
+                return this.$store.getters.getWidth;
             }
         },
         async mounted() {

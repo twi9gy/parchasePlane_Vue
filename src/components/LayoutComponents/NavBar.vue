@@ -7,7 +7,7 @@
                 <mdb-navbar-nav>
                     <mdb-nav-item active :to="{name: 'home'}">Главная</mdb-nav-item>
                     <mdb-nav-item :to="{name: 'about'}">О проекте</mdb-nav-item>
-                    <mdb-nav-item :to="{name: 'contacts'}">Контакты</mdb-nav-item>
+<!--                    <mdb-nav-item :to="{name: 'contacts'}">Контакты</mdb-nav-item>-->
 
                     <mdb-dropdown tag="li" class="nav-item" v-if="Object.keys(this.getUser).length">
                         <mdb-dropdown-toggle tag="a" navLink slot="toggle" waves-fixed>Личный кабинет</mdb-dropdown-toggle>

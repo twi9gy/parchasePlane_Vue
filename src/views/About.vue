@@ -1,22 +1,22 @@
 <template>
-    <div class="container-fluid">
+    <div class="container">
 
         <div v-if="loading">
             <spinner />
         </div>
 
         <div v-else>
-            <div class="row mt-5">
-                <div class="col-12">
-                    <mdb-card class="p-3 pt-4">
-                        <div class="container-fluid">
+            <div class="row about mb-3">
+                <div class="col-12 mt-auto mb-auto">
+                    <mdb-card>
+                        <div class="container-fluid p-5">
                             <div class="row">
                                 <div class="col-12">
                                 <h3>5 шагов для создания плана закупок.</h3>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4 mt-3" v-for="step in steps" :key="step.header">
+                                <div class="col-lg-4 col-md-6 col-sm-12 mb-3" v-for="step in steps" :key="step.header">
                                     <Step
                                     :header="step.header"
                                     :headerColor="step.headerColor"
@@ -36,8 +36,8 @@
 
 <script>
 import { mdbCard } from 'mdbvue';
-import Step from "../components/Step";
-import Spinner from '../components/Spinner.vue';
+import Step from "../components/AboutComponents/Step";
+import Spinner from '../components/LayoutComponents/Spinner.vue';
 
 export default {
     name: 'FeaturesPage',
@@ -52,7 +52,7 @@ export default {
                 {
                     header: 'Шаг 1',
                     text: 'Зарегистрируйте аккаунт.',
-                    to: '/register',
+                    to: { name: 'register' },
                     link: 'Регистрация',
                     headerColor: 'primary-color',
                     btnColor: 'primary'
@@ -60,7 +60,7 @@ export default {
                 {
                     header: 'Шаг 2',
                     text: 'Создайте категорию для файлов с информацией о продажах.',
-                    to: '/categories',
+                    to: { name: 'categories' },
                     link: 'Каталог',
                     headerColor: 'warning-color',
                     btnColor: 'warning'
@@ -68,23 +68,23 @@ export default {
                 {
                     header: 'Шаг 3',
                     text: 'Добавте файлы к категории.',
-                    to: '/categories',
+                    to: { name: 'categories' },
                     link: 'Каталог',
                     headerColor: 'secondary-color',
                     btnColor: 'secondary'
                 },
                 {
                     header: 'Шаг 4',
-                    text: 'В разделе \'Отчеты\' создайте отчет.',
-                    to: '/report/create',
+                    text: 'В разделе \'Отчеты о прогнозировании спроса\' создайте отчет.',
+                    to: { name: 'demandForecastCreate' },
                     link: 'Создание отчета',
                     headerColor: 'info-color',
                     btnColor: 'info'
                 },
                 {
                     header: 'Шаг 5',
-                    text: 'В новой странице откроется отчет о спросе и плане заказов.',
-                    to: '/',
+                    text: 'Создайте план на основе отчета о прогнозировании спроса.',
+                    to: { name: 'plans_create' },
                     link: 'Создание отчета',
                     headerColor: 'success-color',
                     btnColor: 'success'
@@ -99,3 +99,10 @@ export default {
     }
 }
 </script>
+
+<style>
+    .about {
+        margin-top: 70px;
+        min-height: 100vh;
+    }
+</style>

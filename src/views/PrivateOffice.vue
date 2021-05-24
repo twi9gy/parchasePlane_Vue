@@ -61,7 +61,7 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
 import { mdbRow, mdbCol, mdbInput, mdbBtn, mdbIcon } from 'mdbvue';
-import Spinner from '../components/Spinner.vue';
+import Spinner from '../components/LayoutComponents/Spinner.vue';
 
 export default {
     name: "ProfileInformation",
