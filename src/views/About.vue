@@ -7,7 +7,7 @@
 
         <div v-else>
             <div class="row about mb-3">
-                <div class="col-12 mt-auto mb-auto">
+                <div class="col-12 mt-5">
                     <mdb-card>
                         <div class="container-fluid p-5">
                             <div class="row">
