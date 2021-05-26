@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const API_URL = 'http://purchase_plan.local:81/api/v1/user/';
+const API_URL = '/user/';
 
 export default {
     state: {
-        userInfo: { }
+        userInfo: { },
+        uri: process.env.VUE_APP_GATEWAY_API + API_URL
     },
     mutations: {
         setUserInfo(state, userInfo) { state.userInfo = userInfo },
@@ -12,11 +13,11 @@ export default {
     },
     actions: {
         // Метод для получения пользователя по Jwt token
-        async currentUser({ dispatch, commit }) {
+        async currentUser({ dispatch, commit, state }) {
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
             await axios.get(
-                API_URL + 'current',
+                state.uri + 'current',
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
@@ -31,14 +32,14 @@ export default {
                     dispatch('refreshUser')
                 });
         },
-        async changePassword({ commit }, { new_password }) {
+        async changePassword({ commit, state }, { new_password }) {
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             let data = JSON.stringify({
                 'password': new_password
             })
             // Запрос к API
             await axios.put(
-                API_URL + 'changePass',
+                state.uri + 'changePass',
                 data,
                 {
                     headers: {

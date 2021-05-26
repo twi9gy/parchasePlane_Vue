@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const API_URL = "http://purchase_plan.local:81/api/v1/categories/";
+const API_URL = "/categories/";
 
 export default {
     state: {
         categories: [],
-        category: []
+        category: [],
+        uri: process.env.VUE_APP_GATEWAY_API + API_URL
     },
     mutations: {
         setCategories(state, categories) {
@@ -39,12 +40,12 @@ export default {
     },
     actions: {
         // Получить все категории
-        async getAllCategories({ dispatch, commit }) {
+        async getAllCategories({ dispatch, commit, state }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
             await axios.get(
-                API_URL,
+                state.uri,
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
@@ -63,12 +64,12 @@ export default {
                     }
                 });
         },
-        async getCategoryById({ dispatch, commit }, { id }) {
+        async getCategoryById({ dispatch, commit, state }, { id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
             await axios.get(
-                API_URL + id,
+                state.uri + id,
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
@@ -85,7 +86,7 @@ export default {
                     }
                 });
         },
-        async addCategory({ dispatch, commit }, { name, category }) {
+        async addCategory({ dispatch, commit, state }, { name, category }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Данные для создания новой категории
@@ -94,7 +95,7 @@ export default {
             });
             // Запрос к API
             await axios.post(
-                API_URL + 'new',
+                state.uri + 'new',
                     data,
                     {
                     headers: {
@@ -115,7 +116,7 @@ export default {
                     }
                 });
         },
-        async editCategory({ dispatch, commit }, { name, id }) {
+        async editCategory({ dispatch, commit, state }, { name, id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Данные для создания новой категории
@@ -124,7 +125,7 @@ export default {
             });
             // Запрос к API
             await axios.post(
-                API_URL + id + '/edit',
+                state.uri + id + '/edit',
                 data,
                 {
                     headers: {
@@ -142,12 +143,12 @@ export default {
                     }
                 });
         },
-        async delCategory({ dispatch, commit }, { id }) {
+        async delCategory({ dispatch, commit, state }, { id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Запрос к API
             await axios.delete(
-                API_URL + id,
+                state.uri + id,
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',

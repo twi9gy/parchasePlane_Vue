@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const API_URL = "http://purchase_plan.local:81/api/v1/demand_forecast";
+const API_URL = "/demand_forecast";
 
 export default {
     state: {
         files: [],
-        demandForecast: []
+        demandForecast: [],
+        uri: process.env.VUE_APP_GATEWAY_API + API_URL
     },
     mutations: {
         setDemandForecastFiles(state, files) {
@@ -62,12 +63,12 @@ export default {
     },
     actions: {
         // Получить все категории
-        async getAllDemandForecastFiles({ dispatch, commit }) {
+        async getAllDemandForecastFiles({ dispatch, commit, state }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
             await axios.get(
-                API_URL + '/',
+                state.uri + '/',
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
@@ -84,12 +85,12 @@ export default {
                     }
                 });
         },
-        async getDemandForecastByID({ dispatch, commit }, { id }) {
+        async getDemandForecastByID({ dispatch, commit, state }, { id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             // Запрос к API
             await axios.get(
-                API_URL + '/' + id,
+                state.uri + '/' + id,
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
@@ -106,14 +107,14 @@ export default {
                     }
                 });
         },
-        async addDemandForecastFile({ dispatch, commit }, formData ) {
+        async addDemandForecastFile({ dispatch, commit, state }, formData ) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Данные для создания новой категории
             const data = JSON.stringify(formData);
             // Запрос к API
             await axios.post(
-                API_URL + '/new',
+                state.uri + '/new',
                 data,
                 {
                     headers: {
@@ -132,12 +133,12 @@ export default {
                     }
                 });
         },
-        async delDemandForecastFile({ dispatch, commit }, { file_id }) {
+        async delDemandForecastFile({ dispatch, commit, state }, { file_id }) {
             // Устанавливаем в заголовки Http токен JWT
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'));
             // Запрос к API
             await axios.delete(
-                API_URL + '/' + file_id,
+                state.uri + '/' + file_id,
                 {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',

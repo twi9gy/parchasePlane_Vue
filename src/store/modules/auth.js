@@ -1,19 +1,23 @@
 import axios from "axios";
 
-const API_URL = 'http://purchase_plan.local:81/api/v1/auth/';
+const API_URL = '/auth/';
 
 export default {
-    state: { },
+    state:{
+        uri: process.env.VUE_APP_GATEWAY_API + API_URL
+    },
     actions: {
-        async login ({ dispatch, commit }, { username, password}) {
+        async login ({ dispatch, commit, state }, { username, password}) {
+
             // Запрос к API
             const data = JSON.stringify({
                 "username" : username,
                 "password" : password
             });
+
             // Запрос к API
             await axios.post(
-                API_URL + 'signin',
+                state.uri + 'signin',
                 data ,
                 {
                     headers: {
@@ -32,7 +36,7 @@ export default {
                     throw error;
                 });
         },
-        async register({ dispatch, commit }, { email, password, company_name }) {
+        async register({ dispatch, commit, state }, { email, password, company_name }) {
             // Запрос к API
             const data = JSON.stringify({
                 "email" : email,
@@ -41,7 +45,7 @@ export default {
             });
             // Запрос к API
             await axios.post(
-                API_URL + 'signup',
+                state.uri + 'signup',
                 data ,
                 {
                     headers: {
@@ -72,13 +76,13 @@ export default {
             localStorage.removeItem('userToken');
             localStorage.removeItem('refreshToken');
         },
-        async refreshUser({ dispatch }) {
+        async refreshUser({ dispatch, state }) {
             const token = 'Bearer ' + JSON.parse(localStorage.getItem('userToken'))
             let data = JSON.stringify({
                 'refresh_token': JSON.parse(localStorage.getItem('refreshToken'))
             })
             // Запрос к API
-            await axios.post(API_URL + 'token/refresh', data, {
+            await axios.post(state.uri + 'token/refresh', data, {
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
                     'Authorization': token
