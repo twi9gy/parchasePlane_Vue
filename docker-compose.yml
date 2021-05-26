@@ -2,16 +2,6 @@ version: "3"
 services:
   nginx-vue_app:
     container_name: vue_app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    networks:
-      - vue-app-network
-      - gateway-api
+    build: .
     ports:
       - '80:80'
-networks:
-  vue-app-network:
-  gateway-api:
-    external:
-      name: purchaseplan_api_default
