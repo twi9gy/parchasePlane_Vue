@@ -46,6 +46,11 @@ export default {
         mdbCard,
         Spinner
     },
+    created() {
+        // Устанавливаем оглавление к странице
+        this.$store.commit('setTitle', this.$route.meta.title);
+        document.title = this.title;
+    },
     data() {
         return {
             steps: [
@@ -67,7 +72,7 @@ export default {
                 },
                 {
                     header: 'Шаг 3',
-                    text: 'Добавте файлы к категории.',
+                    text: 'Добавте файлы продаж к категории.',
                     to: { name: 'categories' },
                     link: 'Каталог',
                     headerColor: 'secondary-color',
@@ -75,7 +80,8 @@ export default {
                 },
                 {
                     header: 'Шаг 4',
-                    text: 'В разделе \'Отчеты о прогнозировании спроса\' создайте отчет.',
+                    text: 'В разделе \'Отчеты о прогнозировании спроса\' создайте отчет на ' +
+                        'основании файла продаж.',
                     to: { name: 'demandForecastCreate' },
                     link: 'Создание отчета',
                     headerColor: 'info-color',
@@ -95,6 +101,9 @@ export default {
     computed: {
         loading() {
             return this.$store.getters.getLoading;
+        },
+        title() {
+            return this.$store.getters.Page.title;
         }
     }
 }

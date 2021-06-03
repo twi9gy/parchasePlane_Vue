@@ -176,10 +176,16 @@
         computed: {
             loading() {
                 return this.$store.getters.getLoading;
+            },
+            title() {
+                return this.$store.getters.Page.title;
             }
         },
         created() {
             this.$store.commit('setLoading', false);
+            // Устанавливаем оглавление к странице
+            this.$store.commit('setTitle', this.$route.meta.title);
+            document.title = this.title;
         },
         validations: {
             email: { email, required },

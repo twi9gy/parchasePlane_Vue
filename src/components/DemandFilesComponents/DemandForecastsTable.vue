@@ -67,10 +67,10 @@
                     return file.interval === '1M' ? 'месяц' : file.interval === '7D' ? 'неделя' : 'день'
                 }
                 if (file.forecast_period > 1 && file.forecast_period < 5) {
-                    return file.interval === '1M' ? 'месяца' : file.interval === '7D' ? 'недели' : 'деня'
+                    return file.interval === '1M' ? 'месяца' : file.interval === '7D' ? 'недели' : 'дня'
                 }
                 if (file.forecast_period >= 5) {
-                    return file.interval === '1M' ? 'месяцев' : file.interval === '7D' ? 'недель' : 'деней'
+                    return file.interval === '1M' ? 'месяцев' : file.interval === '7D' ? 'недель' : 'дней'
                 }
             }
         }

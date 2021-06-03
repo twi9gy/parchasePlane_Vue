@@ -89,11 +89,18 @@
             this.$store.commit('setHint', this.$route.meta.hint);
             this.$store.commit('setHeader', this.$route.meta.pageName);
 
+            // Устанавливаем оглавление к странице
+            this.$store.commit('setTitle', this.$route.meta.title);
+            document.title = this.title;
+
             this.$store.commit('setLoading', false);
         },
         computed: {
             loading() {
                 return this.$store.getters.getLoading;
+            },
+            title() {
+                return this.$store.getters.Page.title;
             }
         },
         async mounted() {

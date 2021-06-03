@@ -37,6 +37,16 @@
             mdbCard,
             mdbCardBody,
         },
+        created() {
+            // Устанавливаем оглавление к странице
+            this.$store.commit('setTitle', this.$route.meta.title);
+            document.title = this.title;
+        },
+        computed: {
+            title() {
+                return this.$store.getters.Page.title;
+            }
+        },
         methods: {
             back() {
                 this.$router.go(-1);

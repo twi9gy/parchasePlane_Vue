@@ -200,6 +200,8 @@
         },
         created() {
             this.$store.commit('setHint', this.$route.meta.hint);
+            // Устанавливаем оглавление к странице
+            this.$store.commit('setTitle', this.$route.meta.title);
 
             this.$store.commit('setLoading', false);
         },
@@ -241,6 +243,9 @@
             },
             width() {
                 return this.$store.getters.getWidth;
+            },
+            title() {
+                return this.$store.getters.Page.title;
             }
         },
         async mounted() {
@@ -270,6 +275,10 @@
                     });
 
                 this.$store.commit('setHeader', this.$route.meta.pageName + ': ' + this.plan.filename);
+
+                // Устанавливаем оглавление к странице
+                this.$store.commit('setTitle', this.$route.meta.title + ': ' + this.plan.filename);
+                document.title = this.title;
             }
         },
         methods: {

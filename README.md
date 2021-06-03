@@ -1,25 +1,7 @@
-# purchase_plane
+# purchase_plan_Vue
 
-## Project setup
-```
-yarn install
-```
+## Нстройка проекта
+Для запуска проекта необходимо:
+1. установить проект: git clone https://github.com/twi9gy/parchasePlane_Vue
+2. запустить приложение: make up
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-"# parchasePlane_Vue" 

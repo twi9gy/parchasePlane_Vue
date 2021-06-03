@@ -45,6 +45,9 @@
         computed : {
             layout() {
                 return (this.$route.meta.layout || 'main') + '-layout';
+            },
+            title() {
+                return this.$store.getters.Page.title;
             }
         },
         components: {
@@ -57,6 +60,9 @@
         created() {
             window.addEventListener('resize', this.handleResize);
             this.handleResize();
+        },
+        mounted() {
+            document.title = this.title;
         },
         destroyed() {
             window.removeEventListener('resize', this.handleResize);

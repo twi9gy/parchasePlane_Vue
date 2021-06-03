@@ -87,6 +87,10 @@ export default {
     created() {
         this.$store.commit('setHint', this.$route.meta.hint);
         this.$store.commit('setLoading', false);
+
+        // Устанавливаем оглавление к странице
+        this.$store.commit('setTitle', this.$route.meta.title);
+        document.title = this.title;
     },
     computed: {
         category() {
@@ -100,6 +104,9 @@ export default {
         },
         width() {
             return this.$store.getters.getWidth;
+        },
+        title() {
+            return this.$store.getters.Page.title;
         }
     },
     async mounted() {
@@ -118,6 +125,10 @@ export default {
                     this.$store.commit('setLoading', false);
                 });
             this.$store.commit('setHeader', this.$route.meta.pageName + this.category.name);
+
+            // Устанавливаем оглавление к странице
+            this.$store.commit('setTitle', this.$route.meta.title + this.category.name);
+            document.title = this.title;
 
             // Получаем файлы категории
             await this.$store.dispatch('getSaleFilesByCategoryId')

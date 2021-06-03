@@ -6,10 +6,10 @@
             <mdb-tbl-head>
                 <tr>
                     <th class="th-lg">Название файла</th>
-                    <th class="th-sm">Рзделитель столбцов</th>
+                    <th class="th-sm">Разделитель столбцов</th>
                     <th class="th-sm" v-if="width >= 576">Сохранить название</th>
                     <th class="th-sm" v-if="width >= 576">Выбрать файл</th>
-                    <th class="th-sm" v-if="width >= 576">Загрузит файл</th>
+                    <th class="th-sm" v-if="width >= 576">Загрузить файл</th>
                     <th class="th-sm" v-if="width >= 576">Удалить файл</th>
                 </tr>
             </mdb-tbl-head>

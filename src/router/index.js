@@ -8,21 +8,33 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    meta: {
+      title: 'Планирование закупок'
+    },
     component: () => import('../views/Home.vue')
   },
   {
     path: '/about',
     name: 'about',
+    meta: {
+      title: 'Планирование закупок/О проекте'
+    },
     component: () => import('../views/About.vue')
   },
   {
     path: '/login',
     name: 'login',
+    meta: {
+      title: 'Планирование закупок/Вход'
+    },
     component: () => import('../views/Login')
   },
   {
     path: '/register',
     name: 'register',
+    meta: {
+      title: 'Планирование закупок/Регистрация'
+    },
     component: () => import('../views/Register')
   },
   {
@@ -32,40 +44,44 @@ const routes = [
       layout: 'private',
       pageName: 'Личный кабинет',
       hint: 'Здесь можно изменить информацию о вашем профиле.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/Личный кабинет'
     },
     component: () => import('../views/PrivateOffice')
   },
   {
-    path: '/demand_forecast',
+    path: '/demand_forecasts',
     name: 'demandForecast',
     meta: {
       layout: 'private',
       pageName: 'Отчеты о прогнозировании спроса',
       hint: 'Здесь можно посметреть имеющиеся отчеты.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/Отчеты о прогнозировании спроса'
     },
     component: () => import('../views/DemandForecast/DemandForecasts')
   },
   {
-    path: '/demand_forecast/:id',
+    path: '/demand_forecasts/:id',
     name: 'demandForecastShow',
     meta: {
       layout: 'private',
       pageName: 'Отчет о прогнозировании спроса',
       hint: 'Здесь можно посметреть созданный отчет.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/Отчет о прогнозировании спроса'
     },
     component: () => import('../views/DemandForecast/DemandForecast')
   },
   {
-    path: '/demand_forecast/create',
+    path: '/demand_forecasts/create',
     name: 'demandForecastCreate',
     meta: {
       layout: 'private',
       pageName: 'Создание отчета о прогнозировании спроса',
       hint: 'Здесь можно создать новый отчет о прогнозировании спроса.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/Создание отчета о прогнозировании спроса'
     },
     component: () => import('../views/DemandForecast/DemandForecastForm')
   },
@@ -76,7 +92,8 @@ const routes = [
       layout: 'private',
       pageName: 'Планы закупок',
       hint: 'Здесь можно посметреть имеющиеся планы закупок.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/Планы закупок'
     },
     component: () => import('../views/Plans/Plans')
   },
@@ -87,7 +104,8 @@ const routes = [
       layout: 'private',
       pageName: 'План закупок',
       hint: 'Здесь можно посметреть созданный план закупок.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/План закупок'
     },
     component: () => import('../views/Plans/Plan')
   },
@@ -98,7 +116,8 @@ const routes = [
       layout: 'private',
       pageName: 'Создание плана закупок',
       hint: 'Здесь можно создать новый план закупок.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/Создание плана закупок'
     },
     component: () => import('../views/Plans/PlansForm')
   },
@@ -109,7 +128,8 @@ const routes = [
       layout: 'private',
       pageName: 'Каталог',
       hint: 'Здесь можно посметреть имеющиеся категории.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/Каталог'
     },
     component: () => import('../views/Category/Categories')
   },
@@ -120,13 +140,17 @@ const routes = [
       layout: 'private',
       pageName: 'Категория: ',
       hint: 'Здесь храняться файлы категории.',
-      requiresAuth: true
+      requiresAuth: true,
+      title: 'Планирование закупок/Категория: '
     },
     component: () => import('../views/Category/Category')
   },
   {
     path: '*',
     name: 'Error',
+    meta: {
+      title: 'Планирование закупок/Ошибка'
+    },
     component: () => import('../views/Error')
   },
 ];

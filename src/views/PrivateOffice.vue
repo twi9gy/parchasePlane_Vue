@@ -66,18 +66,21 @@ import Spinner from '../components/LayoutComponents/Spinner.vue';
 export default {
     name: "ProfileInformation",
     computed: {
-      User: function () {
-          return this.$store.getters.getUser;
-      },
-      loading() {
-        return this.$store.getters.getLoading;
-      }
+        User: function () {
+            return this.$store.getters.getUser;
+        },
+        loading() {
+            return this.$store.getters.getLoading;
+        },
+        title() {
+            return this.$store.getters.Page.title;
+        }
     },
     data() {
-      return {
-        new_password: '',
-        visible: false
-      }
+        return {
+            new_password: '',
+            visible: false
+        }
     },
     validations: {
       new_password: { required, minLength: minLength(8) }
@@ -93,6 +96,9 @@ export default {
     created() {
         this.$store.commit('setHint', this.$route.meta.hint);
         this.$store.commit('setHeader', this.$route.meta.pageName);
+        // Устанавливаем оглавление к странице
+        this.$store.commit('setTitle', this.$route.meta.title);
+        document.title = this.title;
     },
     methods: {
       changePassword: function () {

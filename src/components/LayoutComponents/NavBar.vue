@@ -1,7 +1,7 @@
 <template>
     <div>
         <mdb-navbar :color="'primary'" position="top" dark transparent scrolling>
-            <mdb-navbar-brand :to="{name: 'home'}">Планы закупок</mdb-navbar-brand>
+            <mdb-navbar-brand :to="{name: 'home'}">Планирование закупок</mdb-navbar-brand>
 
             <mdb-navbar-toggler>
                 <mdb-navbar-nav>
@@ -14,7 +14,7 @@
                         <mdb-dropdown-menu>
                             <mdb-dropdown-item :to="{name: 'privateOffice'}">Информация</mdb-dropdown-item>
                             <mdb-dropdown-item :to="{name: 'categories'}">Каталог</mdb-dropdown-item>
-                            <mdb-dropdown-item :to="{name: 'demandForecast'}">Отчеты о прогнозировании сапроса</mdb-dropdown-item>
+                            <mdb-dropdown-item :to="{name: 'demandForecast'}">Отчеты о прогнозировании спроса</mdb-dropdown-item>
                             <mdb-dropdown-item :to="{name: 'plans'}">Планы закупок</mdb-dropdown-item>
                         </mdb-dropdown-menu>
                     </mdb-dropdown>
