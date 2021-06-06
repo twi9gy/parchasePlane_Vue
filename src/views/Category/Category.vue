@@ -184,19 +184,19 @@ export default {
                         file.edit = false;
                     })
                     .catch(() => { this.$error(this, this.$store.getters.getMessage) })
+            } else {
+                // Если пользователь редактирует имеющиеся категорию
+                const formData = {
+                    "filename" : file.filename,
+                    "file_id" : file.id
+                };
+                this.$store.dispatch('editSaleFile', formData)
+                    .then(()=>{
+                        this.$message(this, this.$store.getters.getMessage);
+                        file.edit = false;
+                    })
+                    .catch(() => { this.$error(this, this.$store.getters.getMessage) });
             }
-
-            // Если пользователь редактирует имеющиеся категорию
-            const formData = {
-                "filename" : file.filename,
-                "file_id" : file.id
-            };
-            this.$store.dispatch('editSaleFile', formData)
-                .then(()=>{
-                    this.$message(this, this.$store.getters.getMessage);
-                    file.edit = false;
-                })
-                .catch(() => { this.$error(this, this.$store.getters.getMessage) });
         }
     }
 }
