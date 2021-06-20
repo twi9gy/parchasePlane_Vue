@@ -230,6 +230,37 @@
                             <!--./Поле Возможная задержка поставок-->
                         </div>
 
+                        <div class="row">
+                            <!--Поле Текущий уровень продукции-->
+                            <div class="col-lg-5 col-md-10">
+                                <div class="md-form mt-1" :class="{'is-invalid':
+                                    (this.$v.production_quantity.$dirty && !this.$v.production_quantity.minValue)
+                                }">
+                                    <input id="production_quantity_input" type="text" class="form-control"
+                                           v-model.trim="production_quantity"
+                                           :class="{
+                                                'is-invalid': (this.$v.production_quantity.$dirty && !this.$v.production_quantity.minValue)
+                                           }"/>
+                                    <label ref="production_quantity_label" for="production_quantity_input" class="mr-5" 
+                                        :class="{ active: production_quantity !== '' }">
+                                        Текущий уровень продукции
+                                    </label>
+
+                                    <div class="invalid-feedback"
+                                         v-if="this.$v.production_quantity.$dirty && !this.$v.production_quantity.minValue">
+                                        Текущий уровень продукции должен быть положительным числом.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-3 mt-4" v-if="width >= 576">
+                                <span class="span-measurement ml-auto mr-auto" style="font-size: .9em">ед. продукции</span>
+                            </div>
+                            <!--./Поле Текущий уровень продукции-->
+                        </div>
+
                         <!--Поле для выбора отчета о прогнозируемом спросе-->
                         <div class="row">
                             <div class="col-12">
@@ -346,7 +377,8 @@
                 service_level: 0,
                 product_price: 0,
                 time_shipping: 0,
-                delayed_deliveries: 0
+                delayed_deliveries: 0,
+                production_quantity: 0
             }
         },
         validations: {
@@ -358,6 +390,7 @@
             product_price: { required, minValue: minValue(1) },
             time_shipping: { required, minValue: minValue(1) },
             delayed_deliveries: { minValue: minValue(1) },
+            production_quantity: { minValue: minValue(1) }
         },
         created() {
             this.$store.commit('setHint', this.$route.meta.hint);
@@ -407,7 +440,8 @@
                     'service_level': this.service_level,
                     'time_shipping': this.time_shipping,
                     'product_price': this.product_price,
-                    'delayed_deliveries': this.delayed_deliveries
+                    'delayed_deliveries': this.delayed_deliveries,
+                    'production_quantity': this.production_quantity
                 })
                     .then(() => {
                         this.$message(this, this.$store.getters.getMessage);

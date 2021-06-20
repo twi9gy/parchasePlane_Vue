@@ -8,7 +8,7 @@
                     <th class="th-lg">Название файла</th>
                     <th class="th-sm" v-if="width >= 576">Точка заказа</th>
                     <th class="th-sm" v-if="width >= 576">Резерв</th>
-                    <th class="th-sm" v-if="width >= 576">Размер заказа</th>
+                    <th class="th-sm" v-if="width >= 576">Издержки</th>
                     <th class="th-sm" v-if="width >= 576">Создан</th>
                     <th class="th-sm">Удалить</th>
                 </tr>
@@ -25,7 +25,7 @@
                     </td>
                     <td v-if="width >= 576">{{ file.orderPoint }}</td>
                     <td v-if="width >= 576">{{ file.reserve }}</td>
-                    <td v-if="width >= 576">{{ file.sizeOrder }}</td>
+                    <td v-if="width >= 576">{{ file.totalCost }} руб.</td>
                     <td v-if="width >= 576">{{ file.createdAt | date('datetime') }}</td>
                     <td>
                         <mdb-btn class="btn-sm m-0" color="danger" size="md" @click="$emit('delFile', file)"
