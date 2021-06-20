@@ -72,7 +72,7 @@ export default {
                 },
                 {
                     header: 'Шаг 3',
-                    text: 'Добавте файлы продаж к категории.',
+                    text: 'Добавьте файлы продаж к категории.',
                     to: { name: 'categories' },
                     link: 'Каталог',
                     headerColor: 'secondary-color',
