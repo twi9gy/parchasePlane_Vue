@@ -4,9 +4,9 @@
         <main>
             <div class="container-fluid">
                 <div class="row">
-                    <article class="col-12">
+                    <div class="col p-0">
                         <router-view />
-                    </article>
+                    </div>
                 </div>
             </div>
         </main>

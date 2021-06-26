@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" class="container-fluid">
 
         <!-- HEADER -->
         <div class="top">
@@ -28,7 +28,11 @@
         <!--/CONTENT-->
 
         <!-- FOOTER -->
-        <Footer />
+        <div class="row">
+            <div class="col p-0">
+                <Footer />
+            </div>
+        </div>
         <!-- ./FOOTER -->
 
     </div>
@@ -100,7 +104,6 @@
         color: #42b983;
     }
     .view_main {
-        /*background-image: url('https://mdbootstrap.com/img/Photos/Others/architecture.jpg');*/
         background-image: url('https://apbox.es/wp-content/uploads/2020/09/Untitled-design-5.png');
         background-repeat: no-repeat;
         background-size: cover;
